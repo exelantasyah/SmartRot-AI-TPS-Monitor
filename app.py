@@ -609,7 +609,7 @@ with tab_detector:
             st.image(
                 image,
                 caption=f"📷 Uploaded: {uploaded_file.name}",
-                use_column_width=True,
+                use_container_width=True,
             )
 
     with col_select:
