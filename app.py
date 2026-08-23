@@ -7,9 +7,13 @@ import random
 import time
 from datetime import datetime, timedelta
 
+import folium
 import numpy as np
+import pandas as pd
 import streamlit as st
+from folium.plugins import MarkerCluster
 from PIL import Image
+from streamlit_folium import st_folium
 
 # ── OpenVINO import with graceful fallback ─────────────────────────────────────
 try:
@@ -635,33 +639,347 @@ with tab_detector:
             unsafe_allow_html=True,
         )
 
+# ══════════════════════════════════════════════════════════════════════════════
+# ── Tab 2 data — TPS site registry ───────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+
+TPS_SITES = [
+    {
+        "name":           "TPS Pasar Minggu",
+        "lat":            -6.2856,
+        "lon":            106.8378,
+        "waste_type":     "🐟 Seafood / Meat",
+        "hours_to_decay": 8,
+        "priority_score": 95,
+        "risk_level":     "CRITICAL",
+        "marker_color":   "red",
+        "gas_risk":       "H₂S (High)",
+        "action_status":  "Truck Dispatched",
+        "district":       "Jakarta Selatan",
+        "notes":          "High seafood waste volume. H₂S odor detected by sensor array.",
+    },
+    {
+        "name":           "TPS Pasar Senen",
+        "lat":            -6.1754,
+        "lon":            106.8454,
+        "waste_type":     "🐟 Seafood / Meat",
+        "hours_to_decay": 6,
+        "priority_score": 98,
+        "risk_level":     "CRITICAL",
+        "marker_color":   "red",
+        "gas_risk":       "H₂S (Critical)",
+        "action_status":  "Truck Dispatched",
+        "district":       "Jakarta Pusat",
+        "notes":          "Critical odor risk. Overflow detected. Immediate evacuation required.",
+    },
+    {
+        "name":           "TPS Kebayoran Baru",
+        "lat":            -6.2437,
+        "lon":            106.7963,
+        "waste_type":     "🥦 Vegetables / Fruits",
+        "hours_to_decay": 18,
+        "priority_score": 62,
+        "risk_level":     "WARNING",
+        "marker_color":   "orange",
+        "gas_risk":       "CH₄ + VOCs",
+        "action_status":  "Pending",
+        "district":       "Jakarta Selatan",
+        "notes":          "Fermentation odor present. Schedule pickup within 8 hours.",
+    },
+    {
+        "name":           "TPS Pasar Rumput",
+        "lat":            -6.2183,
+        "lon":            106.8508,
+        "waste_type":     "🍚 Cooked Carbs / Dry Waste",
+        "hours_to_decay": 34,
+        "priority_score": 18,
+        "risk_level":     "SAFE",
+        "marker_color":   "green",
+        "gas_risk":       "Minimal",
+        "action_status":  "Pending",
+        "district":       "Jakarta Selatan",
+        "notes":          "Low risk. Routine inspection scheduled.",
+    },
+    {
+        "name":           "TPS Jatinegara",
+        "lat":            -6.2154,
+        "lon":            106.8720,
+        "waste_type":     "🥦 Vegetables / Fruits",
+        "hours_to_decay": 20,
+        "priority_score": 58,
+        "risk_level":     "WARNING",
+        "marker_color":   "orange",
+        "gas_risk":       "CH₄ + VOCs",
+        "action_status":  "Pending",
+        "district":       "Jakarta Timur",
+        "notes":          "Mixed organic waste. Monitor methane sensor.",
+    },
+    {
+        "name":           "TPS Tanah Abang",
+        "lat":            -6.1862,
+        "lon":            106.8178,
+        "waste_type":     "🍚 Cooked Carbs / Dry Waste",
+        "hours_to_decay": 30,
+        "priority_score": 24,
+        "risk_level":     "SAFE",
+        "marker_color":   "green",
+        "gas_risk":       "Minimal",
+        "action_status":  "Pending",
+        "district":       "Jakarta Pusat",
+        "notes":          "Dry waste only. No immediate action needed.",
+    },
+]
+
+# Folium marker color → icon color mapping (Folium uses named colors)
+_FOLIUM_ICON_MAP = {
+    "red":    {"color": "red",    "icon": "exclamation-sign"},
+    "orange": {"color": "orange", "icon": "warning-sign"},
+    "green":  {"color": "green",  "icon": "ok-sign"},
+}
+
+
+@st.cache_data(show_spinner=False)
+def build_dispatch_dataframe() -> pd.DataFrame:
+    """Build the priority dispatch DataFrame from TPS_SITES registry."""
+    rows = []
+    for site in TPS_SITES:
+        rows.append({
+            "TPS Name":        site["name"],
+            "District":        site["district"],
+            "Waste Type":      site["waste_type"],
+            "Hours to Decay":  site["hours_to_decay"],
+            "Priority Score":  site["priority_score"],
+            "Risk Level":      site["risk_level"],
+            "Gas Risk":        site["gas_risk"],
+            "Action Status":   site["action_status"],
+        })
+    df = pd.DataFrame(rows)
+    # Sort by priority descending so Critical rows appear first
+    return df.sort_values("Priority Score", ascending=False).reset_index(drop=True)
+
+
+def _style_dispatch_table(df: pd.DataFrame) -> pd.io.formats.style.Styler:
+    """Apply row-level background highlights by risk level."""
+    STYLES = {
+        "CRITICAL": "background-color: #2d0a0a; color: #ef4444;",
+        "WARNING":  "background-color: #2d1a00; color: #FF9900;",
+        "SAFE":     "background-color: #0a2010; color: #4ade80;",
+    }
+
+    def row_style(row):
+        base = STYLES.get(row["Risk Level"], "")
+        return [base] * len(row)
+
+    return (
+        df.style
+        .apply(row_style, axis=1)
+        .set_properties(**{
+            "font-size": "0.88rem",
+            "border": "1px solid #2d3f55",
+        })
+        .set_table_styles([{
+            "selector": "th",
+            "props": [
+                ("background-color", "#232F3E"),
+                ("color", "#FF9900"),
+                ("font-size", "0.78rem"),
+                ("letter-spacing", "0.05em"),
+                ("text-transform", "uppercase"),
+            ],
+        }])
+        .format({"Priority Score": "{:.0f}", "Hours to Decay": "{:.0f} h"})
+        .hide(axis="index")
+    )
+
+
+def build_folium_map() -> folium.Map:
+    """Build the Folium map with TPS markers and popups."""
+    m = folium.Map(
+        location=[-6.2088, 106.8456],
+        zoom_start=12,
+        tiles="CartoDB dark_matter",   # dark base map matching the app theme
+        prefer_canvas=True,
+    )
+
+    for site in TPS_SITES:
+        ic = _FOLIUM_ICON_MAP[site["marker_color"]]
+        risk_badge_color = {
+            "CRITICAL": "#ef4444",
+            "WARNING":  "#FF9900",
+            "SAFE":     "#4ade80",
+        }.get(site["risk_level"], "#9ba8b5")
+
+        popup_html = f"""
+        <div style="font-family:Arial,sans-serif;min-width:230px;
+                    background:#1a2332;color:#d1d5db;
+                    border-radius:8px;padding:12px 14px;
+                    border-left:4px solid {risk_badge_color};">
+            <b style="color:{risk_badge_color};font-size:1rem;">
+                {site['name']}
+            </b><br>
+            <span style="color:#9ba8b5;font-size:0.78rem;">{site['district']}</span>
+            <hr style="border-color:#2d3f55;margin:6px 0;">
+            <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+                <tr>
+                    <td style="color:#9ba8b5;padding:2px 0;">Waste Type</td>
+                    <td style="color:#e2e8f0;text-align:right;">{site['waste_type']}</td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:2px 0;">Risk Level</td>
+                    <td style="color:{risk_badge_color};font-weight:700;
+                               text-align:right;">{site['risk_level']}</td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:2px 0;">Hours to Decay</td>
+                    <td style="color:#e2e8f0;text-align:right;">{site['hours_to_decay']}h</td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:2px 0;">Gas Risk</td>
+                    <td style="color:#e2e8f0;text-align:right;">{site['gas_risk']}</td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:2px 0;">Priority Score</td>
+                    <td style="color:{risk_badge_color};font-weight:700;
+                               text-align:right;">{site['priority_score']}/100</td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:2px 0;">Action</td>
+                    <td style="color:#FF9900;font-weight:700;
+                               text-align:right;">{site['action_status']}</td>
+                </tr>
+            </table>
+            <div style="margin-top:8px;padding:6px 8px;
+                        background:#0f1923;border-radius:4px;
+                        font-size:0.78rem;color:#9ba8b5;">
+                📝 {site['notes']}
+            </div>
+        </div>
+        """
+
+        folium.Marker(
+            location=[site["lat"], site["lon"]],
+            popup=folium.Popup(
+                folium.IFrame(popup_html, width=270, height=280),
+                max_width=290,
+            ),
+            tooltip=f"{site['name']} — {site['risk_level']}",
+            icon=folium.Icon(
+                color=ic["color"],
+                icon=ic["icon"],
+                prefix="glyphicon",
+            ),
+        ).add_to(m)
+
+    # ── Legend overlay ─────────────────────────────────────────────────────────
+    legend_html = """
+    <div style="position:fixed;bottom:30px;left:30px;z-index:1000;
+                background:#1a2332;border:1px solid #2d3f55;
+                border-radius:8px;padding:10px 14px;
+                font-family:Arial,sans-serif;font-size:0.8rem;color:#d1d5db;">
+        <b style="color:#FF9900;">TPS Risk Legend</b><br>
+        <span style="color:#ef4444;">● CRITICAL</span> &nbsp;
+        <span style="color:#FF9900;">● WARNING</span> &nbsp;
+        <span style="color:#4ade80;">● SAFE</span>
+    </div>
+    """
+    m.get_root().html.add_child(folium.Element(legend_html))
+
+    return m
+
+
 # ── Tab 2: DLH Jakarta Central Control Room ───────────────────────────────────
 with tab_map:
     st.markdown("### 🗺️ DLH Jakarta Central Control Room")
-    st.info(
-        "**[PLACEHOLDER]** This tab will render an interactive Folium map.  \n"
-        "Capabilities planned:  \n"
-        "- GeoJSON overlay of all TPS locations across 5 DKI Jakarta cities  \n"
-        "- Color-coded risk markers (green → yellow → red)  \n"
-        "- Clickable popups with TPS detail cards  \n"
-        "- Heatmap layer for odor-risk density  \n"
-        "- Fleet dispatch route suggestions"
-    )
 
-    col_a, col_b, col_c, col_d = st.columns(4)
-    with col_a:
-        st.metric("Jakarta Pusat", "—")
-    with col_b:
-        st.metric("Jakarta Utara", "—")
-    with col_c:
-        st.metric("Jakarta Selatan", "—")
-    with col_d:
-        st.metric("Jakarta Barat / Timur", "—")
+    # ── Top metrics bar (AWS tile style) ──────────────────────────────────────
+    tm1, tm2, tm3, tm4 = st.columns(4)
+    with tm1:
+        st.metric(
+            label="🗑️ Active TPS Monitored",
+            value="6",
+            delta="DKI Jakarta Pilot",
+            delta_color="off",
+        )
+    with tm2:
+        st.metric(
+            label="🚨 Critical Decay Alerts",
+            value="2",
+            delta="Immediate dispatch required",
+            delta_color="inverse",
+        )
+    with tm3:
+        st.metric(
+            label="🌿 CH₄ Prevented (est.)",
+            value="142 kg",
+            delta="↓ vs. unmonitored baseline",
+            delta_color="normal",
+        )
+    with tm4:
+        st.metric(
+            label="🕐 Last Scan",
+            value=datetime.now().strftime("%H:%M"),
+            delta=datetime.now().strftime("%d %b %Y"),
+            delta_color="off",
+        )
 
     st.markdown("---")
-    st.markdown(
-        "<div style='text-align:center; color:#9ba8b5; padding:60px 0;'>"
-        "🗺️ Folium / streamlit-folium interactive map will render here."
-        "</div>",
-        unsafe_allow_html=True,
+
+    # ── Map + site list side-by-side ──────────────────────────────────────────
+    col_map, col_list = st.columns([3, 1], gap="large")
+
+    with col_map:
+        st.markdown("#### 📍 Live TPS Risk Map — DKI Jakarta")
+        jakarta_map = build_folium_map()
+        st_folium(
+            jakarta_map,
+            width=None,        # fills the column
+            height=500,
+            returned_objects=[],
+        )
+
+    with col_list:
+        st.markdown("#### 📋 Site Status")
+        for site in sorted(TPS_SITES, key=lambda x: x["priority_score"], reverse=True):
+            badge_color = {
+                "CRITICAL": "#ef4444",
+                "WARNING":  "#FF9900",
+                "SAFE":     "#4ade80",
+            }[site["risk_level"]]
+            action_color = "#4ade80" if site["action_status"] == "Truck Dispatched" else "#9ba8b5"
+            st.markdown(
+                f"""
+                <div style="background:#1a2332;border:1px solid #2d3f55;
+                            border-left:3px solid {badge_color};
+                            border-radius:6px;padding:8px 12px;margin-bottom:8px;">
+                    <div style="color:{badge_color};font-weight:700;
+                                font-size:0.82rem;">{site['name']}</div>
+                    <div style="color:#9ba8b5;font-size:0.75rem;">
+                        {site['waste_type']} · {site['hours_to_decay']}h
+                    </div>
+                    <div style="color:{action_color};font-size:0.75rem;
+                                font-weight:700;margin-top:2px;">
+                        {site['action_status']}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+    st.markdown("---")
+
+    # ── Priority dispatch table ────────────────────────────────────────────────
+    st.markdown("#### 📊 Priority Dispatch Table")
+    st.caption(
+        "Sorted by Priority Score (highest first). "
+        "🔴 Critical rows require immediate truck dispatch. "
+        "🟡 Warning rows are scheduled. 🟢 Safe rows are in routine monitoring."
+    )
+
+    dispatch_df  = build_dispatch_dataframe()
+    styled_table = _style_dispatch_table(dispatch_df)
+
+    st.dataframe(
+        styled_table,
+        use_container_width=True,
+        height=280,
     )
