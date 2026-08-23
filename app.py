@@ -3,6 +3,7 @@ SmartRot AI: Edge-AI TPS Decay & Odor Risk Monitor (DKI Jakarta)
 Pilot Project — DKI Jakarta
 """
 
+import io
 import random
 import time
 from datetime import datetime, timedelta
@@ -491,6 +492,73 @@ with st.sidebar:
         "- 🗺️ GeoJSON: DKI Jakarta TPS  \n"
         "- 📊 DLH Jakarta Open Data"
     )
+    st.markdown("---")
+
+    # ── Intel Hardware Acceleration Stats ─────────────────────────────────────
+    with st.expander("⚡ Intel Hardware Acceleration Stats", expanded=False):
+        st.markdown(
+            """
+            <div style="font-size:0.82rem;line-height:1.8;">
+            <table style="width:100%;border-collapse:collapse;">
+                <tr>
+                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
+                        🧠 Framework
+                    </td>
+                    <td style="color:#60a5fa;font-weight:700;text-align:right;">
+                        Intel OpenVINO™ 2026
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
+                        ⚙️ Processing Mode
+                    </td>
+                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
+                        Offline Edge Inference
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
+                        🔋 Energy Efficiency
+                    </td>
+                    <td style="color:#4ade80;font-weight:700;text-align:right;">
+                        3.2× lower wattage
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="color:#9ba8b5;font-size:0.72rem;
+                                           padding-top:4px;">
+                        vs. PyTorch CPU baseline
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
+                        🎯 Target Devices
+                    </td>
+                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
+                        NPU · GPU · CPU
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
+                        📦 Model Format
+                    </td>
+                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
+                        OpenVINO IR (.xml/.bin)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
+                        🌐 Connectivity
+                    </td>
+                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
+                        Air-gapped / No Cloud
+                    </td>
+                </tr>
+            </table>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     st.markdown("---")
 
     st.markdown(
@@ -983,3 +1051,40 @@ with tab_map:
         use_container_width=True,
         height=280,
     )
+
+    # ── CSV Export ────────────────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col_export, col_note = st.columns([1, 3], gap="small")
+
+    with col_export:
+        # Build export DataFrame with a report timestamp column prepended
+        report_ts  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        export_df  = dispatch_df.copy()
+        export_df.insert(0, "Report Timestamp", report_ts)
+        export_df.insert(1, "Pilot Region",     "DKI Jakarta")
+
+        csv_buffer = io.StringIO()
+        export_df.to_csv(csv_buffer, index=False, encoding="utf-8")
+        csv_bytes  = csv_buffer.getvalue().encode("utf-8")
+        filename   = f"DLH_Priority_Report_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+
+        st.download_button(
+            label="📥 Export DLH Daily Priority Report (CSV)",
+            data=csv_bytes,
+            file_name=filename,
+            mime="text/csv",
+            use_container_width=True,
+            help="Download the full TPS priority dispatch table as a CSV for DLH records.",
+        )
+
+    with col_note:
+        st.markdown(
+            "<div style='padding:10px 14px;background:#1a2332;border:1px solid #2d3f55;"
+            "border-radius:6px;font-size:0.82rem;color:#9ba8b5;'>"
+            "📄 Export includes TPS Name, District, Waste Type, Hours to Decay, "
+            "Priority Score, Risk Level, Gas Risk, and Action Status — "
+            "timestamped for DLH Jakarta daily operational records."
+            "</div>",
+            unsafe_allow_html=True,
+        )
