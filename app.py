@@ -425,6 +425,287 @@ SMARTCITY_CSS = """
         color: var(--text-mid);
         line-height: 1.5;
     }
+
+    /* ── Recent alerts panel (Tab 2 left column) ── */
+    .alert-panel-header {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+    }
+    .alert-report-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px 14px;
+        margin-bottom: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+    .alert-report-card::before {
+        content: "";
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 4px;
+    }
+    .arc-critical::before { background: var(--risk-red); }
+    .arc-warning::before  { background: var(--risk-yel); }
+    .arc-safe::before     { background: var(--risk-grn); }
+    .arc-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 6px;
+    }
+    .arc-name {
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: var(--text-hi);
+        line-height: 1.3;
+    }
+    .arc-badge {
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        padding: 2px 8px;
+        border-radius: 20px;
+        flex-shrink: 0;
+        margin-left: 8px;
+    }
+    .arc-badge-critical {
+        background: var(--risk-red-bg);
+        color: var(--risk-red);
+        border: 1px solid var(--risk-red);
+    }
+    .arc-badge-warning {
+        background: var(--risk-yel-bg);
+        color: var(--risk-yel);
+        border: 1px solid var(--risk-yel);
+    }
+    .arc-badge-safe {
+        background: var(--risk-grn-bg);
+        color: var(--risk-grn);
+        border: 1px solid var(--risk-grn);
+    }
+    .arc-meta {
+        font-size: 0.76rem;
+        color: var(--text-lo);
+        margin-bottom: 4px;
+    }
+    .arc-urgency {
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+    .arc-action {
+        font-size: 0.74rem;
+        font-weight: 600;
+        margin-top: 4px;
+        padding-top: 6px;
+        border-top: 1px solid var(--border);
+    }
+
+    /* ── Map section label ── */
+    .map-section-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .map-live-dot {
+        width: 7px; height: 7px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 6px var(--accent);
+        display: inline-block;
+    }
+
+    /* ── Right-panel idle placeholder (Tab 1) ── */
+    .right-idle {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--text-lo);
+        height: 100%;
+    }
+    .right-idle .ri-icon { font-size: 2.2rem; margin-bottom: 10px; }
+    .right-idle .ri-text { font-size: 0.88rem; color: var(--text-mid); }
+    .right-idle .ri-hint { font-size: 0.76rem; color: var(--text-lo); margin-top: 6px; }
+
+    /* ── Section divider label ── */
+    .section-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        margin-bottom: 8px;
+    }
+
+    /* ══ SIDEBAR NAVIGATION ══════════════════════════════════════════════════ */
+
+    /* Hide default Streamlit radio button circles */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > div {
+        gap: 2px !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stRadio"] label {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 10px 14px !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+        transition: background 0.15s ease !important;
+        font-size: 0.88rem !important;
+        font-weight: 600 !important;
+        color: var(--text-mid) !important;
+        border: 1px solid transparent !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+        background-color: #1E293B !important;
+        color: var(--text-hi) !important;
+        border-color: var(--border) !important;
+    }
+    /* Selected nav item */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-selected="true"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] input:checked + div {
+        background-color: #0D2E22 !important;
+        color: var(--accent) !important;
+        border-color: var(--accent) !important;
+    }
+    /* Hide the radio circle dot */
+    [data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"] {
+        display: none !important;
+    }
+    /* Nav section divider label */
+    .nav-section-header {
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        padding: 0 4px;
+        margin: 12px 0 6px;
+    }
+
+    /* ── System status card (sidebar bottom) ── */
+    .sys-status-card {
+        background: #0D1929;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 0.78rem;
+    }
+    .sys-status-card .ss-title {
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        margin-bottom: 8px;
+    }
+    .sys-status-card table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .sys-status-card td {
+        padding: 3px 0;
+        font-size: 0.78rem;
+    }
+    .ss-dot {
+        display: inline-block;
+        width: 7px; height: 7px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 6px var(--accent);
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    /* ══ SDG ANALYTICS PAGE ══════════════════════════════════════════════════ */
+    .sdg-header-card {
+        background: linear-gradient(135deg, #0D2E22 0%, #0F172A 100%);
+        border: 1px solid var(--accent);
+        border-radius: var(--radius);
+        padding: 24px 28px;
+        margin-bottom: 20px;
+    }
+    .sdg-header-card h2 {
+        color: var(--accent) !important;
+        margin: 0 0 6px;
+        font-size: 1.3rem;
+    }
+    .sdg-header-card p {
+        color: var(--text-mid) !important;
+        margin: 0;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+    .sdg-goal-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        height: 100%;
+    }
+    .sdg-goal-card .sgc-icon { font-size: 2rem; margin-bottom: 8px; }
+    .sgc-title {
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        margin-bottom: 4px;
+    }
+    .sgc-goal {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-hi);
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    .sgc-body {
+        font-size: 0.82rem;
+        color: var(--text-mid);
+        line-height: 1.55;
+    }
+    .impact-stat {
+        background: var(--bg-card2);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--accent);
+        border-radius: var(--radius-sm);
+        padding: 14px 18px;
+        margin-bottom: 10px;
+    }
+    .impact-stat .is-num {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--accent);
+        line-height: 1;
+        margin-bottom: 3px;
+    }
+    .impact-stat .is-label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-mid);
+    }
+    .impact-stat .is-desc {
+        font-size: 0.73rem;
+        color: var(--text-lo);
+        margin-top: 2px;
+    }
 </style>
 """
 
@@ -633,295 +914,8 @@ def render_result_card(profile: dict, image_name: str) -> None:
         unsafe_allow_html=True,
     )
 
-# ── Sidebar ────────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown(
-        "<h2 style='color:#10B981;margin-bottom:2px;'>🌿 SmartRot AI</h2>"
-        "<p style='color:#64748B;font-size:0.8rem;margin-top:0;'>"
-        "Edge-AI TPS Decay &amp; Odor Risk Monitor</p>",
-        unsafe_allow_html=True,
-    )
-    st.markdown("---")
-
-    # Pilot status badge
-    st.markdown(
-        "<div style='margin-bottom:4px;font-size:0.7rem;font-weight:700;"
-        "letter-spacing:0.08em;text-transform:uppercase;color:#64748B;'>"
-        "Project Status</div>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        '<span class="badge-active">● PILOT ACTIVE</span>',
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        "<div style='margin-top:10px;font-size:0.82rem;color:#CBD5E1;line-height:1.7;'>"
-        "<b style='color:#F8FAFC;'>Pilot:</b> DKI Jakarta<br>"
-        "<b style='color:#F8FAFC;'>Scope:</b> Waste Collection Points (TPS)<br>"
-        "<b style='color:#F8FAFC;'>Region:</b> 5 Administrative Cities"
-        "</div>",
-        unsafe_allow_html=True,
-    )
-    st.markdown("---")
-
-    # App metadata
-    st.markdown(
-        "<div style='font-size:0.7rem;font-weight:700;letter-spacing:0.08em;"
-        "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>App Metadata</div>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        """
-        <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
-            <tr>
-                <td style="color:#64748B;padding:3px 0;">Version</td>
-                <td style="color:#F8FAFC;font-weight:600;text-align:right;">1.0.0-alpha</td>
-            </tr>
-            <tr>
-                <td style="color:#64748B;padding:3px 0;">Model</td>
-                <td style="color:#F8FAFC;font-weight:600;text-align:right;">OpenVINO IR</td>
-            </tr>
-            <tr>
-                <td style="color:#64748B;padding:3px 0;">Framework</td>
-                <td style="color:#F8FAFC;font-weight:600;text-align:right;">Streamlit</td>
-            </tr>
-            <tr>
-                <td style="color:#64748B;padding:3px 0;">Inference</td>
-                <td style="color:#10B981;font-weight:700;text-align:right;">Intel Edge AI</td>
-            </tr>
-        </table>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.markdown("---")
-
-    # Data sources
-    st.markdown(
-        "<div style='font-size:0.7rem;font-weight:700;letter-spacing:0.08em;"
-        "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>Data Sources</div>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        "<div style='font-size:0.82rem;color:#CBD5E1;line-height:2;'>"
-        "📡 Edge Camera Feed (RTSP)<br>"
-        "🌡️ IoT Sensor Array<br>"
-        "🗺️ GeoJSON: DKI Jakarta TPS<br>"
-        "📊 DLH Jakarta Open Data"
-        "</div>",
-        unsafe_allow_html=True,
-    )
-    st.markdown("---")
-
-    # Intel Hardware Acceleration Stats
-    with st.expander("⚡ Intel Hardware Acceleration Stats", expanded=False):
-        st.markdown(
-            """
-            <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
-                <tr>
-                    <td style="color:#64748B;padding:4px 0;">🧠 Framework</td>
-                    <td style="color:#93C5FD;font-weight:700;text-align:right;">Intel OpenVINO™ 2026</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:4px 0;">⚙️ Processing Mode</td>
-                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">Offline Edge Inference</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:4px 0;">🔋 Energy Efficiency</td>
-                    <td style="color:#10B981;font-weight:700;text-align:right;">3.2× lower wattage</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="color:#475569;font-size:0.72rem;padding-bottom:4px;">
-                        vs. PyTorch CPU baseline
-                    </td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:4px 0;">🎯 Target Devices</td>
-                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">NPU · GPU · CPU</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:4px 0;">📦 Model Format</td>
-                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">OpenVINO IR (.xml/.bin)</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:4px 0;">🌐 Connectivity</td>
-                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">Air-gapped / No Cloud</td>
-                </tr>
-            </table>
-            """,
-            unsafe_allow_html=True,
-        )
-    st.markdown("---")
-
-    st.markdown(
-        "<p style='font-size:0.74rem;color:#475569;line-height:1.6;'>"
-        "© 2026 SmartRot AI Team<br>"
-        "Intel AI Innovation Challenge</p>",
-        unsafe_allow_html=True,
-    )
-
-# ── Main header ───────────────────────────────────────────────────────────────
-st.markdown(
-    "<div style='display:flex;align-items:baseline;gap:12px;margin-bottom:2px;'>"
-    "<h1 style='color:#10B981;margin:0;font-size:2rem;font-weight:800;'>"
-    "🌿 SmartRot AI</h1>"
-    "<span style='color:#334155;font-size:1.4rem;'>|</span>"
-    "<span style='color:#64748B;font-size:0.95rem;font-weight:500;'>"
-    "Jakarta Smart City Command Center</span>"
-    "</div>"
-    "<p style='color:#475569;font-size:0.85rem;margin-top:4px;margin-bottom:0;'>"
-    "Edge-AI TPS Decay &amp; Odor Risk Monitor &nbsp;·&nbsp; "
-    "<span style='color:#10B981;font-weight:700;'>● DKI Jakarta Pilot Active</span>"
-    "&nbsp;·&nbsp; Intel OpenVINO™ Powered"
-    "</p>",
-    unsafe_allow_html=True,
-)
-st.markdown("---")
-
-# ── Tabbed navigation ─────────────────────────────────────────────────────────
-tab_detector, tab_map = st.tabs([
-    "📷 Edge AI Detector (TPS Level)",
-    "🗺️ DLH Jakarta Central Control Room",
-])
-
-# ── Tab 1: Edge AI Detector ───────────────────────────────────────────────────
-with tab_detector:
-    st.markdown(
-        "<h3 style='color:#F8FAFC;margin-bottom:4px;'>📷 Edge AI Detector"
-        " — TPS Waste Decay Analysis</h3>"
-        "<p style='color:#64748B;font-size:0.83rem;margin-top:0;'>"
-        "Upload a waste image, select its category, and run OpenVINO inference "
-        "to obtain a decay timeline and odor risk assessment.</p>",
-        unsafe_allow_html=True,
-    )
-
-    # ── OpenVINO device probe (cached) ────────────────────────────────────────
-    ov_info = check_openvino_device()
-    render_openvino_card(ov_info)
-
-    st.markdown("---")
-
-    # ── Input layout: uploader left, selector right ───────────────────────────
-    col_upload, col_select = st.columns([2, 1], gap="large")
-
-    with col_upload:
-        st.markdown(
-            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
-            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
-            "📂 Upload Waste Image</div>",
-            unsafe_allow_html=True,
-        )
-        uploaded_file = st.file_uploader(
-            label="Upload a TPS waste image (JPG / PNG / WEBP)",
-            type=["jpg", "jpeg", "png", "webp"],
-            help="Upload a photo of waste at the TPS site for decay analysis.",
-            label_visibility="collapsed",
-        )
-        if uploaded_file:
-            image = Image.open(uploaded_file)
-            st.image(
-                image,
-                caption=f"📷 {uploaded_file.name}",
-                use_container_width=True,
-            )
-
-    with col_select:
-        st.markdown(
-            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
-            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
-            "🗂️ Waste Category</div>",
-            unsafe_allow_html=True,
-        )
-        waste_type = st.selectbox(
-            "Select waste category",
-            options=list(DECAY_PROFILES.keys()),
-            index=0,
-            help=(
-                "Choose the waste category that matches the uploaded image, "
-                "or select manually to simulate a category without an image."
-            ),
-            label_visibility="collapsed",
-        )
-
-        st.markdown(
-            "<p style='font-size:0.78rem;color:#475569;margin-top:10px;line-height:1.5;'>"
-            "The classifier uses this category to determine the decay timeline "
-            "and gas risk profile. In production, the OpenVINO model infers "
-            "this automatically from the image tensor."
-            "</p>",
-            unsafe_allow_html=True,
-        )
-
-        run_analysis = st.button("⚡ Run Decay Analysis", use_container_width=True)
-
-    st.markdown("---")
-
-    # ── Analysis output ───────────────────────────────────────────────────────
-    if run_analysis or uploaded_file:
-        if run_analysis:
-            # Show a progress bar to simulate inference pipeline
-            progress_bar = st.progress(0, text="Initialising OpenVINO runtime…")
-            for pct, label in [
-                (20,  "Loading IR model weights…"),
-                (45,  "Pre-processing image tensor…"),
-                (70,  "Running inference on " + ov_info["device"] + "…"),
-                (90,  "Post-processing predictions…"),
-                (100, "Analysis complete ✓"),
-            ]:
-                time.sleep(0.25)
-                progress_bar.progress(pct, text=label)
-            time.sleep(0.2)
-            progress_bar.empty()
-
-        display_name = waste_type
-        profile = simulate_inference(waste_type, ov_info["latency_ms"])
-
-        # ── Top summary metrics ───────────────────────────────────────────────
-        m1, m2, m3, m4 = st.columns(4)
-        with m1:
-            st.metric(
-                label="Decay Level",
-                value=profile["level"],
-                delta=None,
-            )
-        with m2:
-            st.metric(
-                label="Critical Window",
-                value=f"{profile['critical_hours']}h",
-                delta=f"-{profile['critical_hours']}h remaining",
-                delta_color="inverse",
-            )
-        with m3:
-            st.metric(
-                label="Odor Risk Score",
-                value=f"{profile['risk_score']} / 100",
-                delta=None,
-            )
-        with m4:
-            st.metric(
-                label="Model Confidence",
-                value=f"{profile['confidence']}%",
-                delta=None,
-            )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # ── Detailed result card ──────────────────────────────────────────────
-        render_result_card(profile, display_name)
-
-    else:
-        # ── Idle state ────────────────────────────────────────────────────────
-        st.markdown(
-            "<div class='upload-idle'>"
-            "<div class='idle-icon'>📷</div>"
-            "<div class='idle-text'>Upload a waste image and press "
-            "<strong style='color:#10B981;'>Run Decay Analysis</strong> to begin.</div>"
-            "<div class='idle-hint'>Supported formats: JPG &nbsp;·&nbsp; PNG &nbsp;·&nbsp; WEBP</div>"
-            "</div>",
-            unsafe_allow_html=True,
-        )
-
 # ══════════════════════════════════════════════════════════════════════════════
-# ── Tab 2 data — TPS site registry ───────────────────────────────────────────
+# ── TPS Site Registry — global data, defined before any UI rendering ──────────
 # ══════════════════════════════════════════════════════════════════════════════
 
 TPS_SITES = [
@@ -1011,13 +1005,17 @@ TPS_SITES = [
     },
 ]
 
-# Folium marker color → icon color mapping (Folium uses named colors)
+# Folium marker icon mapping
 _FOLIUM_ICON_MAP = {
     "red":    {"color": "red",    "icon": "exclamation-sign"},
     "orange": {"color": "orange", "icon": "warning-sign"},
     "green":  {"color": "green",  "icon": "ok-sign"},
 }
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ── Map & Table helper functions ──────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
 
 @st.cache_data(show_spinner=False)
 def build_dispatch_dataframe() -> pd.DataFrame:
@@ -1035,7 +1033,6 @@ def build_dispatch_dataframe() -> pd.DataFrame:
             "Action Status":   site["action_status"],
         })
     df = pd.DataFrame(rows)
-    # Sort by priority descending so Critical rows appear first
     return df.sort_values("Priority Score", ascending=False).reset_index(drop=True)
 
 
@@ -1048,8 +1045,7 @@ def _style_dispatch_table(df: pd.DataFrame):
     }
 
     def row_style(row):
-        base = STYLES.get(row["Risk Level"], "")
-        return [base] * len(row)
+        return [STYLES.get(row["Risk Level"], "")] * len(row)
 
     return (
         df.style
@@ -1081,69 +1077,47 @@ def _style_dispatch_table(df: pd.DataFrame):
 
 
 def build_folium_map() -> folium.Map:
-    """Build the Folium map with TPS markers and popups."""
+    """Build the Folium map with TPS markers and styled popups."""
     m = folium.Map(
         location=[-6.2088, 106.8456],
         zoom_start=12,
-        tiles="cartodbpositron",   # clean minimal canvas — markers pop with high contrast
+        tiles="cartodbpositron",
         prefer_canvas=True,
     )
 
     for site in TPS_SITES:
         ic = _FOLIUM_ICON_MAP[site["marker_color"]]
-        risk_badge_color = {
+        risk_color = {
             "CRITICAL": "#EF4444",
             "WARNING":  "#F59E0B",
             "SAFE":     "#10B981",
         }.get(site["risk_level"], "#64748B")
 
-        popup_html = f"""
-        <div style="font-family:'Inter','Segoe UI',sans-serif;min-width:230px;
-                    background:#1E293B;color:#F8FAFC;
-                    border-radius:10px;padding:14px 16px;
-                    border-left:4px solid {risk_badge_color};
-                    box-shadow:0 4px 16px rgba(0,0,0,0.4);">
-            <b style="color:{risk_badge_color};font-size:0.95rem;">
-                {site['name']}
-            </b><br>
-            <span style="color:#64748B;font-size:0.76rem;">{site['district']}</span>
-            <hr style="border-color:#334155;margin:8px 0;">
-            <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
-                <tr>
-                    <td style="color:#64748B;padding:3px 0;">Waste Type</td>
-                    <td style="color:#F8FAFC;text-align:right;">{site['waste_type']}</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:3px 0;">Risk Level</td>
-                    <td style="color:{risk_badge_color};font-weight:700;
-                               text-align:right;">{site['risk_level']}</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:3px 0;">Hours to Decay</td>
-                    <td style="color:#F8FAFC;text-align:right;">{site['hours_to_decay']}h</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:3px 0;">Gas Risk</td>
-                    <td style="color:#F8FAFC;text-align:right;">{site['gas_risk']}</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:3px 0;">Priority Score</td>
-                    <td style="color:{risk_badge_color};font-weight:700;
-                               text-align:right;">{site['priority_score']}/100</td>
-                </tr>
-                <tr>
-                    <td style="color:#64748B;padding:3px 0;">Action</td>
-                    <td style="color:#10B981;font-weight:700;
-                               text-align:right;">{site['action_status']}</td>
-                </tr>
-            </table>
-            <div style="margin-top:10px;padding:7px 10px;
-                        background:#0F172A;border-radius:6px;
-                        font-size:0.76rem;color:#94A3B8;">
-                📝 {site['notes']}
-            </div>
-        </div>
-        """
+        popup_html = (
+            f'<div style="font-family:\'Inter\',\'Segoe UI\',sans-serif;min-width:230px;'
+            f'background:#1E293B;color:#F8FAFC;border-radius:10px;padding:14px 16px;'
+            f'border-left:4px solid {risk_color};box-shadow:0 4px 16px rgba(0,0,0,0.4);">'
+            f'<b style="color:{risk_color};font-size:0.95rem;">{site["name"]}</b><br>'
+            f'<span style="color:#64748B;font-size:0.76rem;">{site["district"]}</span>'
+            f'<hr style="border-color:#334155;margin:8px 0;">'
+            f'<table style="width:100%;font-size:0.8rem;border-collapse:collapse;">'
+            f'<tr><td style="color:#64748B;padding:3px 0;">Waste Type</td>'
+            f'<td style="color:#F8FAFC;text-align:right;">{site["waste_type"]}</td></tr>'
+            f'<tr><td style="color:#64748B;padding:3px 0;">Risk Level</td>'
+            f'<td style="color:{risk_color};font-weight:700;text-align:right;">{site["risk_level"]}</td></tr>'
+            f'<tr><td style="color:#64748B;padding:3px 0;">Hours to Decay</td>'
+            f'<td style="color:#F8FAFC;text-align:right;">{site["hours_to_decay"]}h</td></tr>'
+            f'<tr><td style="color:#64748B;padding:3px 0;">Gas Risk</td>'
+            f'<td style="color:#F8FAFC;text-align:right;">{site["gas_risk"]}</td></tr>'
+            f'<tr><td style="color:#64748B;padding:3px 0;">Priority Score</td>'
+            f'<td style="color:{risk_color};font-weight:700;text-align:right;">{site["priority_score"]}/100</td></tr>'
+            f'<tr><td style="color:#64748B;padding:3px 0;">Action</td>'
+            f'<td style="color:#10B981;font-weight:700;text-align:right;">{site["action_status"]}</td></tr>'
+            f'</table>'
+            f'<div style="margin-top:10px;padding:7px 10px;background:#0F172A;'
+            f'border-radius:6px;font-size:0.76rem;color:#94A3B8;">📝 {site["notes"]}</div>'
+            f'</div>'
+        )
 
         folium.Marker(
             location=[site["lat"], site["lon"]],
@@ -1159,181 +1133,581 @@ def build_folium_map() -> folium.Map:
             ),
         ).add_to(m)
 
-    # ── Legend overlay ─────────────────────────────────────────────────────────
-    legend_html = """
-    <div style="position:fixed;bottom:30px;left:30px;z-index:1000;
-                background:#1E293B;border:1px solid #334155;
-                border-radius:10px;padding:12px 16px;
-                font-family:'Inter','Segoe UI',sans-serif;
-                font-size:0.78rem;color:#CBD5E1;
-                box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-        <b style="color:#10B981;display:block;margin-bottom:6px;
-                  font-size:0.72rem;letter-spacing:0.07em;text-transform:uppercase;">
-            TPS Risk Legend
-        </b>
-        <span style="color:#EF4444;">● CRITICAL</span>
-        &nbsp;&nbsp;
-        <span style="color:#F59E0B;">● WARNING</span>
-        &nbsp;&nbsp;
-        <span style="color:#10B981;">● SAFE</span>
-    </div>
-    """
+    legend_html = (
+        '<div style="position:fixed;bottom:30px;left:30px;z-index:1000;'
+        'background:#1E293B;border:1px solid #334155;border-radius:10px;'
+        'padding:12px 16px;font-family:\'Inter\',\'Segoe UI\',sans-serif;'
+        'font-size:0.78rem;color:#CBD5E1;box-shadow:0 4px 12px rgba(0,0,0,0.3);">'
+        '<b style="color:#10B981;display:block;margin-bottom:6px;'
+        'font-size:0.72rem;letter-spacing:0.07em;text-transform:uppercase;">'
+        'TPS Risk Legend</b>'
+        '<span style="color:#EF4444;">&#9679; CRITICAL</span>&nbsp;&nbsp;'
+        '<span style="color:#F59E0B;">&#9679; WARNING</span>&nbsp;&nbsp;'
+        '<span style="color:#10B981;">&#9679; SAFE</span>'
+        '</div>'
+    )
     m.get_root().html.add_child(folium.Element(legend_html))
-
     return m
 
 
-# ── Tab 2: DLH Jakarta Central Control Room ───────────────────────────────────
-with tab_map:
+# ══════════════════════════════════════════════════════════════════════════════
+# ── Sidebar — Navigation + Metadata ──────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+with st.sidebar:
+
+    # ── Logo / Brand ──────────────────────────────────────────────────────────
     st.markdown(
-        "<h3 style='color:#F8FAFC;margin-bottom:4px;'>🗺️ DLH Jakarta"
-        " Central Control Room</h3>"
-        "<p style='color:#64748B;font-size:0.83rem;margin-top:0;'>"
-        "Real-time TPS site monitoring across DKI Jakarta's 5 administrative cities. "
-        "Click any map marker for a full site detail card.</p>",
+        "<h2 style='color:#10B981;margin-bottom:0;font-size:1.25rem;"
+        "font-weight:800;letter-spacing:-0.01em;'>"
+        "🌿 SmartRot AI</h2>"
+        "<p style='color:#475569;font-size:0.74rem;margin-top:2px;'>"
+        "Jakarta Smart City Command Center</p>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<div style='height:1px;background:linear-gradient(90deg,"
+        "#10B981 0%,#334155 60%,transparent 100%);"
+        "margin:10px 0 14px;'></div>",
         unsafe_allow_html=True,
     )
 
-    # ── KPI bar — 4 command-center tiles ─────────────────────────────────────
+    # ── Primary Navigation ─────────────────────────────────────────────────
+    st.markdown('<div class="nav-section-header">Navigation</div>',
+                unsafe_allow_html=True)
+
+    NAV_OPTIONS = [
+        "🗺️  Live TPS Map & Control Room",
+        "📷  Edge AI Decay Detector",
+        "📊  Impact & SDG Analytics",
+    ]
+    active_page = st.radio(
+        label="nav",
+        options=NAV_OPTIONS,
+        index=0,
+        label_visibility="collapsed",
+    )
+
+    st.markdown(
+        "<div style='height:1px;background:#334155;margin:14px 0;'></div>",
+        unsafe_allow_html=True,
+    )
+
+    # ── Pilot Status ──────────────────────────────────────────────────────────
+    st.markdown('<div class="nav-section-header">Pilot Status</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        '<span class="badge-active">● PILOT ACTIVE</span>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<div style='margin-top:8px;font-size:0.8rem;color:#CBD5E1;line-height:1.8;'>"
+        "<b style='color:#F8FAFC;'>Region:</b> DKI Jakarta<br>"
+        "<b style='color:#F8FAFC;'>Scope:</b> TPS Collection Points<br>"
+        "<b style='color:#F8FAFC;'>Cities:</b> 5 Administrative"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        "<div style='height:1px;background:#334155;margin:14px 0;'></div>",
+        unsafe_allow_html=True,
+    )
+
+    # ── Data Sources ──────────────────────────────────────────────────────────
+    st.markdown('<div class="nav-section-header">Data Sources</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size:0.79rem;color:#94A3B8;line-height:1.9;'>"
+        "📡 Edge Camera Feed (RTSP)<br>"
+        "🌡️ IoT Sensor Array<br>"
+        "🗺️ GeoJSON: DKI Jakarta TPS<br>"
+        "📊 DLH Jakarta Open Data"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        "<div style='height:1px;background:#334155;margin:14px 0;'></div>",
+        unsafe_allow_html=True,
+    )
+
+    # ── Intel Hardware Stats expander ─────────────────────────────────────────
+    with st.expander("⚡ Intel Hardware Stats", expanded=False):
+        st.markdown(
+            """
+            <table style="width:100%;font-size:0.78rem;border-collapse:collapse;">
+                <tr>
+                    <td style="color:#64748B;padding:3px 0;">🧠 Framework</td>
+                    <td style="color:#93C5FD;font-weight:700;text-align:right;">Intel OpenVINO™ 2026</td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;padding:3px 0;">⚙️ Mode</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">Offline Edge Inference</td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;padding:3px 0;">🔋 Efficiency</td>
+                    <td style="color:#10B981;font-weight:700;text-align:right;">3.2× lower wattage</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="color:#475569;font-size:0.7rem;padding-bottom:3px;">
+                        vs. PyTorch CPU baseline
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;padding:3px 0;">🎯 Devices</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">NPU · GPU · CPU</td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;padding:3px 0;">📦 Format</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">OpenVINO IR (.xml/.bin)</td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;padding:3px 0;">🌐 Network</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">Air-gapped</td>
+                </tr>
+            </table>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # ── Spacer pushes system status to bottom ─────────────────────────────────
+    st.markdown("<div style='flex:1;min-height:32px;'></div>", unsafe_allow_html=True)
+
+    # ── System Status card (always visible at bottom) ─────────────────────────
+    _ov_status = check_openvino_device()
+    _device    = _ov_status["device"]
+    _mode_txt  = "OpenVINO Optimized" if _ov_status["available"] else "Simulation"
+    st.markdown(
+        f"""
+        <div class="sys-status-card">
+            <div class="ss-title">System Status</div>
+            <table>
+                <tr>
+                    <td style="color:#64748B;">Runtime</td>
+                    <td style="color:#93C5FD;font-weight:700;text-align:right;">
+                        Intel OpenVINO IR
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;">Device</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">
+                        <span class="ss-dot"></span>{_device}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;">Mode</td>
+                    <td style="color:#10B981;font-weight:700;text-align:right;">
+                        {_mode_txt}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#64748B;">Pilot</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">
+                        DKI Jakarta
+                    </td>
+                </tr>
+            </table>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<p style='font-size:0.7rem;color:#334155;text-align:center;"
+        "margin-top:10px;'>© 2026 SmartRot AI · Intel AI Challenge</p>",
+        unsafe_allow_html=True,
+    )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ── Main Canvas — page header (shared across all views) ──────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Page-title mapping
+_PAGE_TITLES = {
+    NAV_OPTIONS[0]: ("🗺️ DLH Jakarta Central Control Room",
+                     "Real-time TPS site monitoring across DKI Jakarta's 5 administrative cities. "
+                     "Click any map marker for a full site detail card."),
+    NAV_OPTIONS[1]: ("📷 Edge AI Decay Detector — TPS Waste Analysis",
+                     "Upload a waste image, select its category, and run OpenVINO inference "
+                     "to obtain a decay timeline and odor risk assessment."),
+    NAV_OPTIONS[2]: ("📊 Impact & SDG Analytics",
+                     "Quantified environmental impact and UN SDG alignment of the SmartRot AI pilot "
+                     "across DKI Jakarta's waste collection network."),
+}
+
+_title, _subtitle = _PAGE_TITLES[active_page]
+st.markdown(
+    f"<h2 style='color:#F8FAFC;margin-bottom:2px;font-size:1.5rem;font-weight:800;'>"
+    f"{_title}</h2>"
+    f"<p style='color:#64748B;font-size:0.82rem;margin-top:0;margin-bottom:14px;'>"
+    f"{_subtitle}</p>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    "<div style='height:2px;background:linear-gradient(90deg,"
+    "#10B981 0%,#1E293B 50%,transparent 100%);"
+    "margin-bottom:20px;'></div>",
+    unsafe_allow_html=True,
+)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ── PAGE: Live TPS Map & Control Room ────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+if active_page == NAV_OPTIONS[0]:
+
+    # ── KPI row ───────────────────────────────────────────────────────────────
     tm1, tm2, tm3, tm4 = st.columns(4)
     with tm1:
-        st.metric(
-            label="🗑️ Active TPS Monitored",
-            value="6",
-            delta="DKI Jakarta Pilot",
-            delta_color="off",
-        )
+        st.metric("🗑️ Active TPS Monitored", "6",
+                  delta="DKI Jakarta Pilot", delta_color="off")
     with tm2:
-        st.metric(
-            label="🚨 Critical Decay Alerts",
-            value="2",
-            delta="Immediate dispatch required",
-            delta_color="inverse",
-        )
+        st.metric("🚨 Critical Decay Alerts", "2",
+                  delta="Immediate dispatch required", delta_color="inverse")
     with tm3:
-        st.metric(
-            label="🌿 CH₄ Prevented (est.)",
-            value="142 kg",
-            delta="↓ vs. unmonitored baseline",
-            delta_color="normal",
-        )
+        st.metric("🌿 CH₄ Prevented (est.)", "142 kg",
+                  delta="↓ vs. unmonitored baseline", delta_color="normal")
     with tm4:
-        st.metric(
-            label="🕐 Last Scan",
-            value=datetime.now().strftime("%H:%M"),
-            delta=datetime.now().strftime("%d %b %Y"),
-            delta_color="off",
-        )
+        st.metric("🕐 Last Scan",
+                  datetime.now().strftime("%H:%M"),
+                  delta=datetime.now().strftime("%d %b %Y"),
+                  delta_color="off")
 
-    st.markdown("---")
+    st.markdown("<div style='margin-top:16px;'></div>", unsafe_allow_html=True)
 
-    # ── Map + site status side-by-side ────────────────────────────────────────
-    col_map, col_list = st.columns([3, 1], gap="large")
+    # ── Main canvas: alerts left (1) | map right (2.5) ───────────────────────
+    col_alerts, col_map_view = st.columns([1, 2.5], gap="medium")
 
-    with col_map:
+    with col_alerts:
         st.markdown(
-            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
-            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
-            "📍 Live TPS Risk Map — DKI Jakarta</div>",
+            "<div class='alert-panel-header'>"
+            "🚨 Recent TPS Alerts &amp; Critical Reports"
+            "</div>",
             unsafe_allow_html=True,
         )
-        jakarta_map = build_folium_map()
-        st_folium(
-            jakarta_map,
-            width=None,
-            height=500,
-            returned_objects=[],
-        )
-
-    with col_list:
-        st.markdown(
-            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
-            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
-            "📋 Site Status</div>",
-            unsafe_allow_html=True,
-        )
-        for site in sorted(TPS_SITES, key=lambda x: x["priority_score"], reverse=True):
-            badge_color = {
-                "CRITICAL": "#EF4444",
-                "WARNING":  "#F59E0B",
-                "SAFE":     "#10B981",
-            }[site["risk_level"]]
-            action_color = "#10B981" if site["action_status"] == "Truck Dispatched" \
-                           else "#64748B"
+        _RISK_BADGE_CSS = {
+            "CRITICAL": "arc-badge arc-badge-critical",
+            "WARNING":  "arc-badge arc-badge-warning",
+            "SAFE":     "arc-badge arc-badge-safe",
+        }
+        _URGENCY_COLOR = {
+            "CRITICAL": "#EF4444",
+            "WARNING":  "#F59E0B",
+            "SAFE":     "#10B981",
+        }
+        for site in sorted(TPS_SITES,
+                           key=lambda x: x["priority_score"], reverse=True):
+            risk      = site["risk_level"]
+            bc        = _URGENCY_COLOR[risk]
+            badge_cls = _RISK_BADGE_CSS[risk]
+            arc_cls   = f"alert-report-card arc-{risk.lower()}"
+            act_color = "#10B981" if site["action_status"] == "Truck Dispatched" \
+                        else "#64748B"
+            truck     = "🚛 " if site["action_status"] == "Truck Dispatched" else "⏳ "
             st.markdown(
                 f"""
-                <div class="site-card"
-                     style="border-left:3px solid {badge_color};">
-                    <div class="sc-name" style="color:{badge_color};">
-                        {site['name']}
+                <div class="{arc_cls}">
+                    <div class="arc-top">
+                        <div class="arc-name">{site['name']}</div>
+                        <span class="{badge_cls}">{risk}</span>
                     </div>
-                    <div class="sc-meta">
-                        {site['waste_type']} &nbsp;·&nbsp; {site['hours_to_decay']}h
+                    <div class="arc-meta">
+                        📍 {site['district']} &nbsp;·&nbsp; {site['waste_type']}
                     </div>
-                    <div class="sc-action" style="color:{action_color};">
-                        {site['action_status']}
+                    <div class="arc-urgency" style="color:{bc};">
+                        ⏱ {site['hours_to_decay']}h to critical decay
+                    </div>
+                    <div class="arc-meta" style="margin-top:3px;">
+                        ☣️ {site['gas_risk']}
+                        &nbsp;·&nbsp; Priority: {site['priority_score']}/100
+                    </div>
+                    <div class="arc-action" style="color:{act_color};">
+                        {truck}{site['action_status']}
                     </div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
-    st.markdown("---")
-
-    # ── Priority dispatch table ────────────────────────────────────────────────
-    st.markdown(
-        "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
-        "text-transform:uppercase;color:#64748B;margin-bottom:6px;'>"
-        "📊 Priority Dispatch Table</div>",
-        unsafe_allow_html=True,
-    )
-    st.caption(
-        "Sorted by Priority Score (highest first). "
-        "🔴 Critical — immediate dispatch. "
-        "🟡 Warning — scheduled. "
-        "🟢 Safe — routine monitoring."
-    )
-
-    dispatch_df  = build_dispatch_dataframe()
-    styled_table = _style_dispatch_table(dispatch_df)
-
-    st.dataframe(
-        styled_table,
-        use_container_width=True,
-        height=280,
-    )
-
-    # ── CSV Export ────────────────────────────────────────────────────────────
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    col_export, col_note = st.columns([1, 3], gap="small")
-
-    with col_export:
-        report_ts  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        export_df  = dispatch_df.copy()
-        export_df.insert(0, "Report Timestamp", report_ts)
-        export_df.insert(1, "Pilot Region",     "DKI Jakarta")
-
-        csv_buffer = io.StringIO()
-        export_df.to_csv(csv_buffer, index=False, encoding="utf-8")
-        csv_bytes  = csv_buffer.getvalue().encode("utf-8")
-        filename   = f"DLH_Priority_Report_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
-
-        st.download_button(
-            label="📥 Export DLH Daily Priority Report (CSV)",
-            data=csv_bytes,
-            file_name=filename,
-            mime="text/csv",
-            use_container_width=True,
-            help="Download the full TPS priority dispatch table as a CSV for DLH records.",
-        )
-
-    with col_note:
+    with col_map_view:
         st.markdown(
-            "<div class='export-note'>"
-            "📄 Export includes TPS Name, District, Waste Type, Hours to Decay, "
-            "Priority Score, Risk Level, Gas Risk, and Action Status — "
-            "timestamped for DLH Jakarta daily operational records."
+            "<div class='map-section-label'>"
+            "<span class='map-live-dot'></span>"
+            "Live TPS Risk Map — DKI Jakarta"
             "</div>",
             unsafe_allow_html=True,
         )
+        jakarta_map = build_folium_map()
+        st_folium(jakarta_map, width=None, height=560, returned_objects=[])
+
+    st.markdown("---")
+
+    with st.expander("📊 Priority Dispatch Table — DLH Fleet Assignment",
+                     expanded=False):
+        st.caption(
+            "Sorted by Priority Score (highest first).  "
+            "🔴 Critical — immediate dispatch.  "
+            "🟡 Warning — scheduled.  "
+            "🟢 Safe — routine monitoring."
+        )
+        dispatch_df  = build_dispatch_dataframe()
+        styled_table = _style_dispatch_table(dispatch_df)
+        st.dataframe(styled_table, use_container_width=True, height=280)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        col_exp, col_note = st.columns([1, 3], gap="small")
+        with col_exp:
+            report_ts  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            export_df  = dispatch_df.copy()
+            export_df.insert(0, "Report Timestamp", report_ts)
+            export_df.insert(1, "Pilot Region",     "DKI Jakarta")
+            csv_buf    = io.StringIO()
+            export_df.to_csv(csv_buf, index=False, encoding="utf-8")
+            st.download_button(
+                label="📥 Export DLH Daily Priority Report (CSV)",
+                data=csv_buf.getvalue().encode("utf-8"),
+                file_name=f"DLH_Priority_Report_"
+                          f"{datetime.now().strftime('%Y%m%d_%H%M')}.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
+        with col_note:
+            st.markdown(
+                "<div class='export-note'>"
+                "📄 Includes TPS Name, District, Waste Type, Hours to Decay, "
+                "Priority Score, Risk Level, Gas Risk, Action Status — "
+                "timestamped for DLH Jakarta daily operational records."
+                "</div>",
+                unsafe_allow_html=True,
+            )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ── PAGE: Edge AI Decay Detector ─────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+elif active_page == NAV_OPTIONS[1]:
+
+    ov_info = check_openvino_device()
+
+    col_left, col_right = st.columns([1, 1], gap="large")
+
+    # ── LEFT: image uploader + preview ───────────────────────────────────────
+    with col_left:
+        st.markdown('<div class="section-label">📂 Waste Image Input</div>',
+                    unsafe_allow_html=True)
+        uploaded_file = st.file_uploader(
+            label="Upload a TPS waste image (JPG / PNG / WEBP)",
+            type=["jpg", "jpeg", "png", "webp"],
+            help="Upload a photo of waste at the TPS site for decay analysis.",
+            label_visibility="collapsed",
+        )
+        if uploaded_file:
+            st.image(
+                Image.open(uploaded_file),
+                caption=f"📷 {uploaded_file.name}",
+                use_container_width=True,
+            )
+        else:
+            st.markdown(
+                "<div class='upload-idle'>"
+                "<div class='idle-icon'>🗑️</div>"
+                "<div class='idle-text'>Drop or browse a waste photo here</div>"
+                "<div class='idle-hint'>JPG &nbsp;·&nbsp; PNG &nbsp;·&nbsp; WEBP</div>"
+                "</div>",
+                unsafe_allow_html=True,
+            )
+
+    # ── RIGHT: OV badge + selector + button + results ────────────────────────
+    with col_right:
+        render_openvino_card(ov_info)
+
+        st.markdown('<div class="section-label">🗂️ Waste Category</div>',
+                    unsafe_allow_html=True)
+        waste_type = st.selectbox(
+            "Waste category",
+            options=list(DECAY_PROFILES.keys()),
+            index=0,
+            help="Choose the category matching the image. "
+                 "In production the OpenVINO model infers this automatically.",
+            label_visibility="collapsed",
+        )
+        run_analysis = st.button("⚡ Run Decay Analysis", use_container_width=True)
+
+        st.markdown("---")
+
+        if run_analysis or uploaded_file:
+            if run_analysis:
+                pb = st.progress(0, text="Initialising OpenVINO runtime…")
+                for pct, lbl in [
+                    (20,  "Loading IR model weights…"),
+                    (45,  "Pre-processing image tensor…"),
+                    (70,  f"Running inference on {ov_info['device']}…"),
+                    (90,  "Post-processing predictions…"),
+                    (100, "Analysis complete ✓"),
+                ]:
+                    time.sleep(0.25)
+                    pb.progress(pct, text=lbl)
+                time.sleep(0.2)
+                pb.empty()
+
+            profile = simulate_inference(waste_type, ov_info["latency_ms"])
+
+            km1, km2, km3, km4 = st.columns(4)
+            with km1:
+                st.metric("Decay Level",     profile["level"])
+            with km2:
+                st.metric("Critical Window",
+                          f"{profile['critical_hours']}h",
+                          delta=f"-{profile['critical_hours']}h",
+                          delta_color="inverse")
+            with km3:
+                st.metric("Odor Risk Score", f"{profile['risk_score']}/100")
+            with km4:
+                st.metric("Confidence",      f"{profile['confidence']}%")
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            render_result_card(profile, waste_type)
+
+        else:
+            st.markdown(
+                "<div class='right-idle'>"
+                "<div class='ri-icon'>⚡</div>"
+                "<div class='ri-text'>Select a waste category and press<br>"
+                "<strong style='color:#10B981;'>Run Decay Analysis</strong>"
+                " to see the AI result here.</div>"
+                "<div class='ri-hint'>Or upload an image first to auto-trigger.</div>"
+                "</div>",
+                unsafe_allow_html=True,
+            )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ── PAGE: Impact & SDG Analytics ─────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+elif active_page == NAV_OPTIONS[2]:
+
+    # ── SDG header card ───────────────────────────────────────────────────────
+    st.markdown(
+        "<div class='sdg-header-card'>"
+        "<h2>🌍 SmartRot AI — Environmental Impact & UN SDG Alignment</h2>"
+        "<p>Quantified outcomes from the DKI Jakarta pilot program, mapped to the "
+        "United Nations Sustainable Development Goals. All figures are estimated "
+        "based on 6 monitored TPS sites, 30-day pilot window.</p>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    # ── Impact stats row ──────────────────────────────────────────────────────
+    si1, si2, si3, si4 = st.columns(4)
+    with si1:
+        st.metric("🌿 CH₄ Prevented",   "142 kg",  delta="30-day pilot",    delta_color="normal")
+    with si2:
+        st.metric("🚛 Dispatches Saved", "38",      delta="vs manual routing", delta_color="normal")
+    with si3:
+        st.metric("⏱ Avg Response Time", "−2.4 h",  delta="vs baseline",     delta_color="normal")
+    with si4:
+        st.metric("🏙️ TPS Sites Covered", "6",       delta="DKI Jakarta",     delta_color="off")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── SDG goal cards ────────────────────────────────────────────────────────
+    sdg1, sdg2, sdg3 = st.columns(3)
+
+    with sdg1:
+        st.markdown(
+            "<div class='sdg-goal-card'>"
+            "<div class='sdg-goal-card .sgc-icon'>🏙️</div>"
+            "<div class='sgc-title'>SDG 11</div>"
+            "<div class='sgc-goal'>Sustainable Cities & Communities</div>"
+            "<div class='sgc-body'>"
+            "SmartRot AI enables DLH Jakarta to proactively manage organic waste "
+            "at 6 TPS sites, reducing urban odor incidents and improving "
+            "neighborhood sanitation for ~180,000 nearby residents."
+            "</div>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+
+    with sdg2:
+        st.markdown(
+            "<div class='sdg-goal-card'>"
+            "<div class='sdg-goal-card .sgc-icon'>🌍</div>"
+            "<div class='sgc-title'>SDG 13</div>"
+            "<div class='sgc-goal'>Climate Action</div>"
+            "<div class='sgc-body'>"
+            "Early decay detection prevents 142 kg of estimated methane (CH₄) "
+            "from entering the atmosphere during the 30-day pilot — equivalent "
+            "to removing ~3.5 tonnes of CO₂ equivalent from the urban environment."
+            "</div>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+
+    with sdg3:
+        st.markdown(
+            "<div class='sdg-goal-card'>"
+            "<div class='sdg-goal-card .sgc-icon'>🤖</div>"
+            "<div class='sgc-title'>SDG 9</div>"
+            "<div class='sgc-goal'>Industry, Innovation & Infrastructure</div>"
+            "<div class='sgc-body'>"
+            "Deploys Intel OpenVINO™ edge inference on commodity hardware — "
+            "no cloud dependency, 3.2× lower energy than PyTorch CPU baseline — "
+            "demonstrating scalable, low-cost AI infrastructure for public services."
+            "</div>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── Quantified impact breakdown ───────────────────────────────────────────
+    st.markdown(
+        "<div style='font-size:0.7rem;font-weight:800;letter-spacing:0.1em;"
+        "text-transform:uppercase;color:#64748B;margin-bottom:12px;'>"
+        "Quantified Impact Breakdown</div>",
+        unsafe_allow_html=True,
+    )
+
+    ia, ib = st.columns(2)
+    with ia:
+        for stat in [
+            ("142 kg",  "Methane Prevented (est.)",
+             "Organic waste intercepted before critical decay threshold"),
+            ("38",      "Optimised Dispatch Events",
+             "AI-routed truck dispatches vs. manual schedule baseline"),
+            ("−2.4 h",  "Faster Mean Response Time",
+             "Average reduction in TPS service delay per alert cycle"),
+        ]:
+            st.markdown(
+                f"<div class='impact-stat'>"
+                f"<div class='is-num'>{stat[0]}</div>"
+                f"<div class='is-label'>{stat[1]}</div>"
+                f"<div class='is-desc'>{stat[2]}</div>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+    with ib:
+        for stat in [
+            ("6",       "TPS Sites Monitored",
+             "Across 4 Jakarta districts in the 30-day pilot"),
+            ("3.2×",    "Energy Efficiency Gain",
+             "Intel OpenVINO IR vs. PyTorch CPU inference baseline"),
+            ("0",       "Cloud Dependencies",
+             "Full offline edge inference — air-gapped, privacy-safe"),
+        ]:
+            st.markdown(
+                f"<div class='impact-stat'>"
+                f"<div class='is-num'>{stat[0]}</div>"
+                f"<div class='is-label'>{stat[1]}</div>"
+                f"<div class='is-desc'>{stat[2]}</div>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.caption(
+        "⚠️ All impact figures are simulated estimates based on the 6-site pilot model. "
+        "Production deployment across all DKI Jakarta TPS sites is projected to scale "
+        "impact by approximately 40–60×."
+    )
+
