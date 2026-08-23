@@ -1,0 +1,6 @@
+streamlit
+pandas
+numpy
+openvino
+folium
+streamlit-folium
