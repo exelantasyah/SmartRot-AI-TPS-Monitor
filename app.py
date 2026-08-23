@@ -826,7 +826,7 @@ def build_dispatch_dataframe() -> pd.DataFrame:
     return df.sort_values("Priority Score", ascending=False).reset_index(drop=True)
 
 
-def _style_dispatch_table(df: pd.DataFrame) -> pd.io.formats.style.Styler:
+def _style_dispatch_table(df: pd.DataFrame):
     """Apply row-level background highlights by risk level."""
     STYLES = {
         "CRITICAL": "background-color: #2d0a0a; color: #ef4444;",
