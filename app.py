@@ -31,222 +31,404 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── AWS Console Dark-Enterprise Theme ─────────────────────────────────────────
-AWS_DARK_CSS = """
+# ── Jakarta Smart City Command Center — Emerald Green Eco-Tech Theme ──────────
+SMARTCITY_CSS = """
 <style>
-    /* ── Global background ── */
-    html, body, [data-testid="stAppViewContainer"] {
-        background-color: #0f1923;
-        color: #d1d5db;
-        font-family: "Amazon Ember", "Helvetica Neue", Arial, sans-serif;
+    /* ══ TOKENS ══════════════════════════════════════════════════════════════ */
+    :root {
+        --bg-app:      #0F172A;
+        --bg-card:     #1E293B;
+        --bg-card2:    #243047;
+        --border:      #334155;
+        --accent:      #10B981;
+        --accent-dim:  #065F46;
+        --text-hi:     #F8FAFC;
+        --text-mid:    #CBD5E1;
+        --text-lo:     #64748B;
+        --risk-red:    #EF4444;
+        --risk-red-bg: #2D0A0A;
+        --risk-yel:    #F59E0B;
+        --risk-yel-bg: #2D1A00;
+        --risk-grn:    #10B981;
+        --risk-grn-bg: #052E16;
+        --radius:      12px;
+        --radius-sm:   8px;
     }
 
-    /* ── Top navigation bar ── */
+    /* ══ APP SHELL ═══════════════════════════════════════════════════════════ */
+    html, body,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"],
+    .main {
+        background-color: var(--bg-app) !important;
+        color: var(--text-hi) !important;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    }
+
+    /* ══ HEADER BAR ══════════════════════════════════════════════════════════ */
     [data-testid="stHeader"] {
-        background-color: #232F3E;
-        border-bottom: 2px solid #FF9900;
+        background-color: #0F172A !important;
+        border-bottom: 2px solid var(--accent) !important;
     }
 
-    /* ── Sidebar ── */
-    [data-testid="stSidebar"] {
-        background-color: #1a2332;
-        border-right: 1px solid #2d3f55;
+    /* ══ SIDEBAR ════════════════════════════════════════════════════════════ */
+    [data-testid="stSidebar"],
+    [data-testid="stSidebar"] > div:first-child {
+        background-color: #162032 !important;
+        border-right: 1px solid var(--border) !important;
+    }
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] li,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] small {
+        color: var(--text-mid) !important;
     }
     [data-testid="stSidebar"] h1,
     [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3,
-    [data-testid="stSidebar"] label {
-        color: #FF9900;
+    [data-testid="stSidebar"] h3 {
+        color: var(--accent) !important;
     }
 
-    /* ── Main content area ── */
+    /* ══ MAIN CONTENT ════════════════════════════════════════════════════════ */
     [data-testid="stMainBlockContainer"] {
-        background-color: #0f1923;
+        background-color: var(--bg-app) !important;
         padding-top: 1.5rem;
     }
+    /* Ensure all plain text in main area is readable */
+    [data-testid="stMainBlockContainer"] p,
+    [data-testid="stMainBlockContainer"] li,
+    [data-testid="stMarkdown"] p {
+        color: var(--text-mid) !important;
+    }
+    [data-testid="stMainBlockContainer"] h1,
+    [data-testid="stMainBlockContainer"] h2,
+    [data-testid="stMainBlockContainer"] h3,
+    [data-testid="stMainBlockContainer"] h4 {
+        color: var(--text-hi) !important;
+    }
 
-    /* ── Tab bar ── */
+    /* ══ TABS ════════════════════════════════════════════════════════════════ */
     [data-testid="stTabs"] [role="tablist"] {
-        background-color: #232F3E;
-        border-radius: 6px 6px 0 0;
-        padding: 4px 8px 0 8px;
-        border-bottom: 2px solid #FF9900;
+        background-color: #162032;
+        border-radius: var(--radius) var(--radius) 0 0;
+        padding: 6px 10px 0;
+        border-bottom: 2px solid var(--accent);
+        gap: 4px;
     }
     [data-testid="stTabs"] button[role="tab"] {
-        color: #9ba8b5;
+        color: var(--text-lo) !important;
         font-weight: 600;
-        font-size: 0.9rem;
-        padding: 8px 18px;
-        border-radius: 4px 4px 0 0;
-        transition: color 0.2s, background-color 0.2s;
+        font-size: 0.88rem;
+        padding: 8px 20px;
+        border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+        background: transparent;
     }
     [data-testid="stTabs"] button[role="tab"]:hover {
-        color: #FF9900;
-        background-color: #2d3f55;
+        color: var(--accent) !important;
+        background-color: #1E293B;
+        border-color: var(--border);
     }
     [data-testid="stTabs"] button[aria-selected="true"] {
-        color: #FF9900 !important;
-        background-color: #0f1923 !important;
-        border-bottom: 2px solid #FF9900;
+        color: var(--accent) !important;
+        background-color: var(--bg-app) !important;
+        border-color: var(--accent) var(--accent) transparent !important;
+        border-width: 1px 1px 2px !important;
     }
 
-    /* ── Metric / info cards ── */
+    /* ══ STREAMLIT METRICS ═══════════════════════════════════════════════════ */
     [data-testid="stMetric"] {
-        background-color: #1a2332;
-        border: 1px solid #2d3f55;
-        border-left: 3px solid #FF9900;
-        border-radius: 6px;
-        padding: 12px 16px;
+        background-color: var(--bg-card) !important;
+        border: 1px solid var(--border) !important;
+        border-top: 3px solid var(--accent) !important;
+        border-radius: var(--radius) !important;
+        padding: 16px 18px !important;
+    }
+    [data-testid="stMetric"] label,
+    [data-testid="stMetricLabel"] {
+        color: var(--text-lo) !important;
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.06em !important;
+    }
+    [data-testid="stMetricValue"] {
+        color: var(--text-hi) !important;
+        font-size: 1.6rem !important;
+        font-weight: 800 !important;
+    }
+    [data-testid="stMetricDelta"] {
+        color: var(--text-mid) !important;
+        font-size: 0.78rem !important;
     }
 
-    /* ── Buttons ── */
-    .stButton > button {
-        background-color: #FF9900;
-        color: #0f1923;
-        font-weight: 700;
-        border: none;
+    /* ══ BUTTONS ════════════════════════════════════════════════════════════ */
+    .stButton > button,
+    .stDownloadButton > button {
+        background-color: var(--accent) !important;
+        color: #0F172A !important;
+        font-weight: 700 !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
+        padding: 10px 20px !important;
+        font-size: 0.88rem !important;
+        transition: background-color 0.2s, transform 0.1s !important;
+    }
+    .stButton > button:hover,
+    .stDownloadButton > button:hover {
+        background-color: #059669 !important;
+        transform: translateY(-1px);
+    }
+    .stButton > button:active,
+    .stDownloadButton > button:active {
+        transform: translateY(0);
+    }
+
+    /* ══ SELECTBOX / FILE UPLOADER ═══════════════════════════════════════════ */
+    [data-testid="stSelectbox"] > div > div,
+    [data-testid="stFileUploader"] {
+        background-color: var(--bg-card) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-sm) !important;
+        color: var(--text-hi) !important;
+    }
+    [data-testid="stFileUploader"] label {
+        color: var(--text-mid) !important;
+    }
+    [data-testid="stFileUploadDropzone"] {
+        background-color: var(--bg-card2) !important;
+        border: 2px dashed var(--accent) !important;
+        border-radius: var(--radius) !important;
+    }
+    [data-testid="stFileUploadDropzone"] p,
+    [data-testid="stFileUploadDropzone"] span {
+        color: var(--text-mid) !important;
+    }
+
+    /* ══ PROGRESS BAR ════════════════════════════════════════════════════════ */
+    [data-testid="stProgressBar"] > div > div {
+        background-color: var(--accent) !important;
         border-radius: 4px;
-        transition: background-color 0.2s;
     }
-    .stButton > button:hover {
-        background-color: #e68a00;
-        color: #0f1923;
-    }
-
-    /* ── Status badge helper classes ── */
-    .badge-active {
-        display: inline-block;
-        background-color: #1e4620;
-        color: #4ade80;
-        border: 1px solid #4ade80;
-        border-radius: 12px;
-        padding: 2px 12px;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-    }
-    .badge-warn {
-        display: inline-block;
-        background-color: #3d2600;
-        color: #FF9900;
-        border: 1px solid #FF9900;
-        border-radius: 12px;
-        padding: 2px 12px;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
+    [data-testid="stProgressBar"] > div {
+        background-color: var(--border) !important;
+        border-radius: 4px;
     }
 
-    /* ── Divider ── */
-    hr {
-        border-color: #2d3f55;
+    /* ══ EXPANDER ═══════════════════════════════════════════════════════════ */
+    [data-testid="stExpander"] {
+        background-color: var(--bg-card) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-sm) !important;
+    }
+    [data-testid="stExpander"] summary {
+        color: var(--text-hi) !important;
+        font-weight: 600 !important;
     }
 
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0f1923; }
-    ::-webkit-scrollbar-thumb { background: #2d3f55; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #FF9900; }
+    /* ══ DATAFRAME ═══════════════════════════════════════════════════════════ */
+    [data-testid="stDataFrame"] {
+        border-radius: var(--radius) !important;
+        overflow: hidden;
+        border: 1px solid var(--border) !important;
+    }
 
-    /* ── OpenVINO status card ── */
+    /* ══ CAPTION / SMALL TEXT ════════════════════════════════════════════════ */
+    [data-testid="stCaptionContainer"] p,
+    small {
+        color: var(--text-lo) !important;
+    }
+
+    /* ══ INFO BOX ════════════════════════════════════════════════════════════ */
+    [data-testid="stAlert"] {
+        background-color: var(--bg-card) !important;
+        border-color: var(--border) !important;
+        color: var(--text-mid) !important;
+        border-radius: var(--radius-sm) !important;
+    }
+
+    /* ══ DIVIDER ════════════════════════════════════════════════════════════ */
+    hr { border-color: var(--border) !important; }
+
+    /* ══ SCROLLBAR ══════════════════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-app); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ══ CUSTOM COMPONENT CLASSES ════════════════════════════════════════════ */
+
+    /* ── OpenVINO badge card ── */
     .ov-card {
-        background-color: #0d1f33;
-        border: 1px solid #0071C5;
-        border-left: 4px solid #0071C5;
-        border-radius: 6px;
+        background-color: #162032;
+        border: 1px solid #1D4ED8;
+        border-left: 4px solid #3B82F6;
+        border-radius: var(--radius-sm);
         padding: 14px 18px;
         margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 16px;
     }
-    .ov-card .ov-title {
-        color: #60a5fa;
-        font-size: 0.78rem;
+    .ov-dot {
+        width: 10px; height: 10px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--accent);
+        flex-shrink: 0;
+    }
+    .ov-body { flex: 1; }
+    .ov-title {
+        color: #93C5FD;
+        font-size: 0.72rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.09em;
         text-transform: uppercase;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
-    .ov-card .ov-device {
-        color: #e2e8f0;
-        font-size: 1.1rem;
+    .ov-device {
+        color: var(--text-hi);
+        font-size: 1rem;
         font-weight: 700;
     }
-    .ov-card .ov-latency {
-        color: #4ade80;
-        font-size: 0.85rem;
-        margin-top: 2px;
+    .ov-latency {
+        color: var(--accent);
+        font-size: 0.82rem;
+        margin-top: 1px;
     }
 
-    /* ── Result alert cards ── */
+    /* ── Risk alert cards ── */
     .alert-critical {
-        background-color: #2d0a0a;
-        border: 1px solid #ef4444;
-        border-left: 5px solid #ef4444;
-        border-radius: 8px;
-        padding: 18px 22px;
+        background-color: var(--risk-red-bg);
+        border: 1px solid var(--risk-red);
+        border-left: 5px solid var(--risk-red);
+        border-radius: var(--radius);
+        padding: 20px 24px;
         margin: 1rem 0;
     }
     .alert-warning {
-        background-color: #2d1a00;
-        border: 1px solid #FF9900;
-        border-left: 5px solid #FF9900;
-        border-radius: 8px;
-        padding: 18px 22px;
+        background-color: var(--risk-yel-bg);
+        border: 1px solid var(--risk-yel);
+        border-left: 5px solid var(--risk-yel);
+        border-radius: var(--radius);
+        padding: 20px 24px;
         margin: 1rem 0;
     }
     .alert-safe {
-        background-color: #0a2010;
-        border: 1px solid #4ade80;
-        border-left: 5px solid #4ade80;
-        border-radius: 8px;
-        padding: 18px 22px;
+        background-color: var(--risk-grn-bg);
+        border: 1px solid var(--risk-grn);
+        border-left: 5px solid var(--risk-grn);
+        border-radius: var(--radius);
+        padding: 20px 24px;
         margin: 1rem 0;
     }
-    .alert-critical h3 { color: #ef4444; margin: 0 0 8px 0; font-size: 1.1rem; }
-    .alert-warning  h3 { color: #FF9900; margin: 0 0 8px 0; font-size: 1.1rem; }
-    .alert-safe     h3 { color: #4ade80; margin: 0 0 8px 0; font-size: 1.1rem; }
-    .alert-row { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 10px; }
-    .alert-item label {
-        display: block;
-        font-size: 0.72rem;
+    .alert-critical h3 { color: var(--risk-red) !important; margin: 0 0 12px; font-size: 1.1rem; }
+    .alert-warning  h3 { color: var(--risk-yel) !important; margin: 0 0 12px; font-size: 1.1rem; }
+    .alert-safe     h3 { color: var(--risk-grn) !important; margin: 0 0 12px; font-size: 1.1rem; }
+
+    .kpi-row {
+        display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .kpi-cell {
+        background: #162032;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 16px;
+        min-width: 120px;
+    }
+    .kpi-label {
+        font-size: 0.68rem;
         font-weight: 700;
-        letter-spacing: 0.07em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #9ba8b5;
-        margin-bottom: 2px;
+        color: var(--text-lo);
+        margin-bottom: 3px;
     }
-    .alert-item span {
-        font-size: 1rem;
+    .kpi-value {
+        font-size: 1.05rem;
         font-weight: 700;
-        color: #e2e8f0;
+        color: var(--text-hi);
     }
-    .action-box {
-        background-color: #1a2332;
-        border-radius: 6px;
-        padding: 10px 14px;
-        margin-top: 12px;
-        font-size: 0.9rem;
-        color: #d1d5db;
-        border: 1px solid #2d3f55;
-    }
-    .action-box strong { color: #FF9900; }
 
     /* ── Risk score bar ── */
     .risk-bar-wrap {
-        margin-top: 8px;
-        background: #1a2332;
+        background: var(--bg-card2);
         border-radius: 4px;
-        height: 10px;
+        height: 8px;
         overflow: hidden;
     }
     .risk-bar-fill {
-        height: 10px;
+        height: 8px;
         border-radius: 4px;
         transition: width 0.6s ease;
+    }
+
+    /* ── Action box ── */
+    .action-box {
+        background-color: #162032;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px 16px;
+        margin-top: 14px;
+        font-size: 0.88rem;
+        color: var(--text-mid);
+        line-height: 1.6;
+    }
+    .action-box strong { color: var(--accent); }
+
+    /* ── Sidebar status badge ── */
+    .badge-active {
+        display: inline-block;
+        background-color: var(--accent-dim);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 20px;
+        padding: 3px 14px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+    }
+
+    /* ── Upload idle placeholder ── */
+    .upload-idle {
+        text-align: center;
+        color: var(--text-lo);
+        padding: 52px 24px;
+        border: 2px dashed var(--border);
+        border-radius: var(--radius);
+        background: var(--bg-card);
+    }
+    .upload-idle .idle-icon { font-size: 2.8rem; margin-bottom: 10px; }
+    .upload-idle .idle-text { font-size: 0.95rem; color: var(--text-mid); }
+    .upload-idle .idle-hint { font-size: 0.78rem; color: var(--text-lo); margin-top: 4px; }
+
+    /* ── Site status mini-card ── */
+    .site-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        margin-bottom: 8px;
+    }
+    .site-card .sc-name  { font-size: 0.82rem; font-weight: 700; }
+    .site-card .sc-meta  { font-size: 0.74rem; color: var(--text-lo); margin-top: 1px; }
+    .site-card .sc-action{ font-size: 0.74rem; font-weight: 700; margin-top: 3px; }
+
+    /* ── Export note box ── */
+    .export-note {
+        padding: 11px 16px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 0.82rem;
+        color: var(--text-mid);
+        line-height: 1.5;
     }
 </style>
 """
 
-st.markdown(AWS_DARK_CSS, unsafe_allow_html=True)
+st.markdown(SMARTCITY_CSS, unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -323,8 +505,8 @@ DECAY_PROFILES = {
         "risk_score": 61,
         "level": "WARNING",
         "css_class": "alert-warning",
-        "badge_color": "#FF9900",
-        "bar_color": "#FF9900",
+        "badge_color": "#F59E0B",
+        "bar_color": "#F59E0B",
         "action": (
             "⚠️ <strong>SCHEDULE COLLECTION:</strong> "
             "Queue pickup within 8 hours. "
@@ -340,8 +522,8 @@ DECAY_PROFILES = {
         "risk_score": 22,
         "level": "SAFE",
         "css_class": "alert-safe",
-        "badge_color": "#4ade80",
-        "bar_color": "#4ade80",
+        "badge_color": "#10B981",
+        "bar_color": "#10B981",
         "action": (
             "✅ <strong>ROUTINE MONITORING:</strong> "
             "No immediate collection required. "
@@ -370,7 +552,7 @@ def _countdown_str(hours: int) -> str:
 
 
 def render_openvino_card(ov: dict) -> None:
-    """Render the OpenVINO status card."""
+    """Render the OpenVINO status badge card."""
     device_label = ov["device"]
     latency      = ov["latency_ms"]
     ov_flag      = "Intel OpenVINO™ Optimized" if ov["available"] else "Simulation Mode"
@@ -379,11 +561,14 @@ def render_openvino_card(ov: dict) -> None:
     st.markdown(
         f"""
         <div class="ov-card">
-            <div class="ov-title">⚡ OpenVINO Runtime Status</div>
-            <div class="ov-device">Active Device: {device_label}</div>
-            <div class="ov-latency">
-                {latency} ms · {ov_flag}
-                &nbsp;|&nbsp; All detected: {all_dev_str}
+            <div class="ov-dot"></div>
+            <div class="ov-body">
+                <div class="ov-title">⚡ OpenVINO Runtime · Active</div>
+                <div class="ov-device">Device: {device_label}</div>
+                <div class="ov-latency">
+                    {latency} ms &nbsp;·&nbsp; {ov_flag}
+                    &nbsp;|&nbsp; Detected: {all_dev_str}
+                </div>
             </div>
         </div>
         """,
@@ -393,55 +578,53 @@ def render_openvino_card(ov: dict) -> None:
 
 def render_result_card(profile: dict, image_name: str) -> None:
     """Render the full decay analysis result card."""
-    css     = profile["css_class"]
-    level   = profile["level"]
-    hours   = profile["critical_hours"]
-    score   = profile["risk_score"]
-    bar_col = profile["bar_color"]
-    action  = profile["action"]
-    gas     = profile["gas_risk"]
-    gas_ico = profile["gas_icon"]
-    conf    = profile["confidence"]
-    lat     = profile["latency_ms"]
+    css       = profile["css_class"]
+    level     = profile["level"]
+    hours     = profile["critical_hours"]
+    score     = profile["risk_score"]
+    bar_col   = profile["bar_color"]
+    action    = profile["action"]
+    gas       = profile["gas_risk"]
+    gas_ico   = profile["gas_icon"]
+    conf      = profile["confidence"]
+    lat       = profile["latency_ms"]
     countdown = _countdown_str(hours)
 
     st.markdown(
         f"""
         <div class="{css}">
             <h3>{gas_ico} Decay Level: {level}</h3>
-            <div class="alert-row">
-                <div class="alert-item">
-                    <label>Waste Type</label>
-                    <span>{image_name}</span>
+            <div class="kpi-row">
+                <div class="kpi-cell">
+                    <div class="kpi-label">Waste Type</div>
+                    <div class="kpi-value">{image_name}</div>
                 </div>
-                <div class="alert-item">
-                    <label>Critical Window</label>
-                    <span>{countdown}</span>
+                <div class="kpi-cell">
+                    <div class="kpi-label">Critical Window</div>
+                    <div class="kpi-value" style="font-size:0.88rem;">{countdown}</div>
                 </div>
-                <div class="alert-item">
-                    <label>Gas Risk</label>
-                    <span>{gas}</span>
+                <div class="kpi-cell">
+                    <div class="kpi-label">Gas Risk</div>
+                    <div class="kpi-value" style="font-size:0.9rem;">{gas}</div>
                 </div>
-                <div class="alert-item">
-                    <label>Confidence</label>
-                    <span>{conf}%</span>
+                <div class="kpi-cell">
+                    <div class="kpi-label">Confidence</div>
+                    <div class="kpi-value">{conf}%</div>
                 </div>
-                <div class="alert-item">
-                    <label>Inference Time</label>
-                    <span>{lat} ms</span>
+                <div class="kpi-cell">
+                    <div class="kpi-label">Inference Time</div>
+                    <div class="kpi-value">{lat} ms</div>
                 </div>
             </div>
-            <div style="margin-top:10px;">
-                <label style="font-size:0.72rem;font-weight:700;letter-spacing:0.07em;
-                              text-transform:uppercase;color:#9ba8b5;">
-                    Odor Risk Score
-                </label>
-                <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+            <div style="margin-bottom:8px;">
+                <div class="kpi-label" style="margin-bottom:6px;">Odor Risk Score</div>
+                <div style="display:flex;align-items:center;gap:12px;">
                     <div class="risk-bar-wrap" style="flex:1;">
                         <div class="risk-bar-fill"
                              style="width:{score}%;background:{bar_col};"></div>
                     </div>
-                    <span style="color:{bar_col};font-weight:700;min-width:36px;">{score}/100</span>
+                    <span style="color:{bar_col};font-weight:800;
+                                 font-size:1rem;min-width:48px;">{score}/100</span>
                 </div>
             </div>
             <div class="action-box">{action}</div>
@@ -452,127 +635,144 @@ def render_result_card(profile: dict, image_name: str) -> None:
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🗑️ SmartRot AI")
-    st.markdown("**Edge-AI TPS Decay &**  \n**Odor Risk Monitor**")
+    st.markdown(
+        "<h2 style='color:#10B981;margin-bottom:2px;'>🌿 SmartRot AI</h2>"
+        "<p style='color:#64748B;font-size:0.8rem;margin-top:0;'>"
+        "Edge-AI TPS Decay &amp; Odor Risk Monitor</p>",
+        unsafe_allow_html=True,
+    )
     st.markdown("---")
 
     # Pilot status badge
-    st.markdown("### Project Status")
+    st.markdown(
+        "<div style='margin-bottom:4px;font-size:0.7rem;font-weight:700;"
+        "letter-spacing:0.08em;text-transform:uppercase;color:#64748B;'>"
+        "Project Status</div>",
+        unsafe_allow_html=True,
+    )
     st.markdown(
         '<span class="badge-active">● PILOT ACTIVE</span>',
         unsafe_allow_html=True,
     )
     st.markdown(
-        "**Pilot Project:** DKI Jakarta  \n"
-        "**Scope:** Waste Collection Points (TPS)  \n"
-        "**Region:** 5 Administrative Cities",
+        "<div style='margin-top:10px;font-size:0.82rem;color:#CBD5E1;line-height:1.7;'>"
+        "<b style='color:#F8FAFC;'>Pilot:</b> DKI Jakarta<br>"
+        "<b style='color:#F8FAFC;'>Scope:</b> Waste Collection Points (TPS)<br>"
+        "<b style='color:#F8FAFC;'>Region:</b> 5 Administrative Cities"
+        "</div>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
 
     # App metadata
-    st.markdown("### App Metadata")
+    st.markdown(
+        "<div style='font-size:0.7rem;font-weight:700;letter-spacing:0.08em;"
+        "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>App Metadata</div>",
+        unsafe_allow_html=True,
+    )
     st.markdown(
         """
-| Field | Value |
-|---|---|
-| Version | `1.0.0-alpha` |
-| Model | OpenVINO IR |
-| Framework | Streamlit |
-| Inference | Intel Edge AI |
-        """
+        <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
+            <tr>
+                <td style="color:#64748B;padding:3px 0;">Version</td>
+                <td style="color:#F8FAFC;font-weight:600;text-align:right;">1.0.0-alpha</td>
+            </tr>
+            <tr>
+                <td style="color:#64748B;padding:3px 0;">Model</td>
+                <td style="color:#F8FAFC;font-weight:600;text-align:right;">OpenVINO IR</td>
+            </tr>
+            <tr>
+                <td style="color:#64748B;padding:3px 0;">Framework</td>
+                <td style="color:#F8FAFC;font-weight:600;text-align:right;">Streamlit</td>
+            </tr>
+            <tr>
+                <td style="color:#64748B;padding:3px 0;">Inference</td>
+                <td style="color:#10B981;font-weight:700;text-align:right;">Intel Edge AI</td>
+            </tr>
+        </table>
+        """,
+        unsafe_allow_html=True,
     )
     st.markdown("---")
 
-    # Quick links / info
-    st.markdown("### Data Sources")
+    # Data sources
     st.markdown(
-        "- 📡 Edge Camera Feed (RTSP)  \n"
-        "- 🌡️ IoT Sensor Array  \n"
-        "- 🗺️ GeoJSON: DKI Jakarta TPS  \n"
-        "- 📊 DLH Jakarta Open Data"
+        "<div style='font-size:0.7rem;font-weight:700;letter-spacing:0.08em;"
+        "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>Data Sources</div>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<div style='font-size:0.82rem;color:#CBD5E1;line-height:2;'>"
+        "📡 Edge Camera Feed (RTSP)<br>"
+        "🌡️ IoT Sensor Array<br>"
+        "🗺️ GeoJSON: DKI Jakarta TPS<br>"
+        "📊 DLH Jakarta Open Data"
+        "</div>",
+        unsafe_allow_html=True,
     )
     st.markdown("---")
 
-    # ── Intel Hardware Acceleration Stats ─────────────────────────────────────
+    # Intel Hardware Acceleration Stats
     with st.expander("⚡ Intel Hardware Acceleration Stats", expanded=False):
         st.markdown(
             """
-            <div style="font-size:0.82rem;line-height:1.8;">
-            <table style="width:100%;border-collapse:collapse;">
+            <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
                 <tr>
-                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
-                        🧠 Framework
-                    </td>
-                    <td style="color:#60a5fa;font-weight:700;text-align:right;">
-                        Intel OpenVINO™ 2026
-                    </td>
+                    <td style="color:#64748B;padding:4px 0;">🧠 Framework</td>
+                    <td style="color:#93C5FD;font-weight:700;text-align:right;">Intel OpenVINO™ 2026</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
-                        ⚙️ Processing Mode
-                    </td>
-                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
-                        Offline Edge Inference
-                    </td>
+                    <td style="color:#64748B;padding:4px 0;">⚙️ Processing Mode</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">Offline Edge Inference</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
-                        🔋 Energy Efficiency
-                    </td>
-                    <td style="color:#4ade80;font-weight:700;text-align:right;">
-                        3.2× lower wattage
-                    </td>
+                    <td style="color:#64748B;padding:4px 0;">🔋 Energy Efficiency</td>
+                    <td style="color:#10B981;font-weight:700;text-align:right;">3.2× lower wattage</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="color:#9ba8b5;font-size:0.72rem;
-                                           padding-top:4px;">
+                    <td colspan="2" style="color:#475569;font-size:0.72rem;padding-bottom:4px;">
                         vs. PyTorch CPU baseline
                     </td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
-                        🎯 Target Devices
-                    </td>
-                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
-                        NPU · GPU · CPU
-                    </td>
+                    <td style="color:#64748B;padding:4px 0;">🎯 Target Devices</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">NPU · GPU · CPU</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
-                        📦 Model Format
-                    </td>
-                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
-                        OpenVINO IR (.xml/.bin)
-                    </td>
+                    <td style="color:#64748B;padding:4px 0;">📦 Model Format</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">OpenVINO IR (.xml/.bin)</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:3px 0;vertical-align:top;">
-                        🌐 Connectivity
-                    </td>
-                    <td style="color:#e2e8f0;font-weight:700;text-align:right;">
-                        Air-gapped / No Cloud
-                    </td>
+                    <td style="color:#64748B;padding:4px 0;">🌐 Connectivity</td>
+                    <td style="color:#F8FAFC;font-weight:600;text-align:right;">Air-gapped / No Cloud</td>
                 </tr>
             </table>
-            </div>
             """,
             unsafe_allow_html=True,
         )
     st.markdown("---")
 
     st.markdown(
-        "<small style='color:#9ba8b5;'>© 2026 SmartRot AI Team<br>"
-        "Intel AI Innovation Challenge</small>",
+        "<p style='font-size:0.74rem;color:#475569;line-height:1.6;'>"
+        "© 2026 SmartRot AI Team<br>"
+        "Intel AI Innovation Challenge</p>",
         unsafe_allow_html=True,
     )
 
 # ── Main header ───────────────────────────────────────────────────────────────
 st.markdown(
-    "<h1 style='color:#FF9900; margin-bottom:0;'>SmartRot AI</h1>"
-    "<p style='color:#9ba8b5; font-size:1.05rem; margin-top:4px;'>"
+    "<div style='display:flex;align-items:baseline;gap:12px;margin-bottom:2px;'>"
+    "<h1 style='color:#10B981;margin:0;font-size:2rem;font-weight:800;'>"
+    "🌿 SmartRot AI</h1>"
+    "<span style='color:#334155;font-size:1.4rem;'>|</span>"
+    "<span style='color:#64748B;font-size:0.95rem;font-weight:500;'>"
+    "Jakarta Smart City Command Center</span>"
+    "</div>"
+    "<p style='color:#475569;font-size:0.85rem;margin-top:4px;margin-bottom:0;'>"
     "Edge-AI TPS Decay &amp; Odor Risk Monitor &nbsp;·&nbsp; "
-    "<span style='color:#4ade80;'>● DKI Jakarta Pilot</span></p>",
+    "<span style='color:#10B981;font-weight:700;'>● DKI Jakarta Pilot Active</span>"
+    "&nbsp;·&nbsp; Intel OpenVINO™ Powered"
+    "</p>",
     unsafe_allow_html=True,
 )
 st.markdown("---")
@@ -585,7 +785,14 @@ tab_detector, tab_map = st.tabs([
 
 # ── Tab 1: Edge AI Detector ───────────────────────────────────────────────────
 with tab_detector:
-    st.markdown("### 📷 Edge AI Detector — TPS Waste Decay Analysis")
+    st.markdown(
+        "<h3 style='color:#F8FAFC;margin-bottom:4px;'>📷 Edge AI Detector"
+        " — TPS Waste Decay Analysis</h3>"
+        "<p style='color:#64748B;font-size:0.83rem;margin-top:0;'>"
+        "Upload a waste image, select its category, and run OpenVINO inference "
+        "to obtain a decay timeline and odor risk assessment.</p>",
+        unsafe_allow_html=True,
+    )
 
     # ── OpenVINO device probe (cached) ────────────────────────────────────────
     ov_info = check_openvino_device()
@@ -597,7 +804,12 @@ with tab_detector:
     col_upload, col_select = st.columns([2, 1], gap="large")
 
     with col_upload:
-        st.markdown("#### 📂 Upload Waste Image")
+        st.markdown(
+            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
+            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
+            "📂 Upload Waste Image</div>",
+            unsafe_allow_html=True,
+        )
         uploaded_file = st.file_uploader(
             label="Upload a TPS waste image (JPG / PNG / WEBP)",
             type=["jpg", "jpeg", "png", "webp"],
@@ -608,12 +820,17 @@ with tab_detector:
             image = Image.open(uploaded_file)
             st.image(
                 image,
-                caption=f"📷 Uploaded: {uploaded_file.name}",
+                caption=f"📷 {uploaded_file.name}",
                 use_container_width=True,
             )
 
     with col_select:
-        st.markdown("#### 🗂️ Waste Category")
+        st.markdown(
+            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
+            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
+            "🗂️ Waste Category</div>",
+            unsafe_allow_html=True,
+        )
         waste_type = st.selectbox(
             "Select waste category",
             options=list(DECAY_PROFILES.keys()),
@@ -625,17 +842,15 @@ with tab_detector:
             label_visibility="collapsed",
         )
 
-        st.markdown("<br>", unsafe_allow_html=True)
         st.markdown(
-            "<small style='color:#9ba8b5;'>"
-            "The classifier uses the selected category to determine "
-            "decay timeline and gas risk profile. In production, "
-            "this is inferred automatically by the OpenVINO model."
-            "</small>",
+            "<p style='font-size:0.78rem;color:#475569;margin-top:10px;line-height:1.5;'>"
+            "The classifier uses this category to determine the decay timeline "
+            "and gas risk profile. In production, the OpenVINO model infers "
+            "this automatically from the image tensor."
+            "</p>",
             unsafe_allow_html=True,
         )
 
-        st.markdown("<br>", unsafe_allow_html=True)
         run_analysis = st.button("⚡ Run Decay Analysis", use_container_width=True)
 
     st.markdown("---")
@@ -696,13 +911,11 @@ with tab_detector:
     else:
         # ── Idle state ────────────────────────────────────────────────────────
         st.markdown(
-            "<div style='text-align:center;color:#9ba8b5;padding:48px 0;"
-            "border:1px dashed #2d3f55;border-radius:8px;'>"
-            "<div style='font-size:2.5rem;'>📷</div>"
-            "<div style='margin-top:8px;font-size:1rem;'>Upload a waste image and press"
-            " <strong style='color:#FF9900;'>Run Decay Analysis</strong> to begin.</div>"
-            "<div style='font-size:0.82rem;margin-top:6px;color:#4a5568;'>"
-            "Supported formats: JPG · PNG · WEBP</div>"
+            "<div class='upload-idle'>"
+            "<div class='idle-icon'>📷</div>"
+            "<div class='idle-text'>Upload a waste image and press "
+            "<strong style='color:#10B981;'>Run Decay Analysis</strong> to begin.</div>"
+            "<div class='idle-hint'>Supported formats: JPG &nbsp;·&nbsp; PNG &nbsp;·&nbsp; WEBP</div>"
             "</div>",
             unsafe_allow_html=True,
         )
@@ -829,9 +1042,9 @@ def build_dispatch_dataframe() -> pd.DataFrame:
 def _style_dispatch_table(df: pd.DataFrame):
     """Apply row-level background highlights by risk level."""
     STYLES = {
-        "CRITICAL": "background-color: #2d0a0a; color: #ef4444;",
-        "WARNING":  "background-color: #2d1a00; color: #FF9900;",
-        "SAFE":     "background-color: #0a2010; color: #4ade80;",
+        "CRITICAL": "background-color: #2D0A0A; color: #EF4444;",
+        "WARNING":  "background-color: #2D1A00; color: #F59E0B;",
+        "SAFE":     "background-color: #052E16; color: #10B981;",
     }
 
     def row_style(row):
@@ -842,18 +1055,25 @@ def _style_dispatch_table(df: pd.DataFrame):
         df.style
         .apply(row_style, axis=1)
         .set_properties(**{
-            "font-size": "0.88rem",
-            "border": "1px solid #2d3f55",
+            "font-size":   "0.85rem",
+            "font-weight": "600",
+            "border":      "1px solid #334155",
         })
         .set_table_styles([{
             "selector": "th",
             "props": [
-                ("background-color", "#232F3E"),
-                ("color", "#FF9900"),
-                ("font-size", "0.78rem"),
-                ("letter-spacing", "0.05em"),
-                ("text-transform", "uppercase"),
+                ("background-color", "#1E293B"),
+                ("color",            "#10B981"),
+                ("font-size",        "0.72rem"),
+                ("font-weight",      "700"),
+                ("letter-spacing",   "0.06em"),
+                ("text-transform",   "uppercase"),
+                ("border-bottom",    "2px solid #334155"),
+                ("padding",          "10px 12px"),
             ],
+        }, {
+            "selector": "td",
+            "props": [("padding", "8px 12px")],
         }])
         .format({"Priority Score": "{:.0f}", "Hours to Decay": "{:.0f} h"})
         .hide(axis="index")
@@ -865,60 +1085,61 @@ def build_folium_map() -> folium.Map:
     m = folium.Map(
         location=[-6.2088, 106.8456],
         zoom_start=12,
-        tiles="CartoDB dark_matter",   # dark base map matching the app theme
+        tiles="cartodbpositron",   # clean minimal canvas — markers pop with high contrast
         prefer_canvas=True,
     )
 
     for site in TPS_SITES:
         ic = _FOLIUM_ICON_MAP[site["marker_color"]]
         risk_badge_color = {
-            "CRITICAL": "#ef4444",
-            "WARNING":  "#FF9900",
-            "SAFE":     "#4ade80",
-        }.get(site["risk_level"], "#9ba8b5")
+            "CRITICAL": "#EF4444",
+            "WARNING":  "#F59E0B",
+            "SAFE":     "#10B981",
+        }.get(site["risk_level"], "#64748B")
 
         popup_html = f"""
-        <div style="font-family:Arial,sans-serif;min-width:230px;
-                    background:#1a2332;color:#d1d5db;
-                    border-radius:8px;padding:12px 14px;
-                    border-left:4px solid {risk_badge_color};">
-            <b style="color:{risk_badge_color};font-size:1rem;">
+        <div style="font-family:'Inter','Segoe UI',sans-serif;min-width:230px;
+                    background:#1E293B;color:#F8FAFC;
+                    border-radius:10px;padding:14px 16px;
+                    border-left:4px solid {risk_badge_color};
+                    box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+            <b style="color:{risk_badge_color};font-size:0.95rem;">
                 {site['name']}
             </b><br>
-            <span style="color:#9ba8b5;font-size:0.78rem;">{site['district']}</span>
-            <hr style="border-color:#2d3f55;margin:6px 0;">
-            <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+            <span style="color:#64748B;font-size:0.76rem;">{site['district']}</span>
+            <hr style="border-color:#334155;margin:8px 0;">
+            <table style="width:100%;font-size:0.8rem;border-collapse:collapse;">
                 <tr>
-                    <td style="color:#9ba8b5;padding:2px 0;">Waste Type</td>
-                    <td style="color:#e2e8f0;text-align:right;">{site['waste_type']}</td>
+                    <td style="color:#64748B;padding:3px 0;">Waste Type</td>
+                    <td style="color:#F8FAFC;text-align:right;">{site['waste_type']}</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:2px 0;">Risk Level</td>
+                    <td style="color:#64748B;padding:3px 0;">Risk Level</td>
                     <td style="color:{risk_badge_color};font-weight:700;
                                text-align:right;">{site['risk_level']}</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:2px 0;">Hours to Decay</td>
-                    <td style="color:#e2e8f0;text-align:right;">{site['hours_to_decay']}h</td>
+                    <td style="color:#64748B;padding:3px 0;">Hours to Decay</td>
+                    <td style="color:#F8FAFC;text-align:right;">{site['hours_to_decay']}h</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:2px 0;">Gas Risk</td>
-                    <td style="color:#e2e8f0;text-align:right;">{site['gas_risk']}</td>
+                    <td style="color:#64748B;padding:3px 0;">Gas Risk</td>
+                    <td style="color:#F8FAFC;text-align:right;">{site['gas_risk']}</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:2px 0;">Priority Score</td>
+                    <td style="color:#64748B;padding:3px 0;">Priority Score</td>
                     <td style="color:{risk_badge_color};font-weight:700;
                                text-align:right;">{site['priority_score']}/100</td>
                 </tr>
                 <tr>
-                    <td style="color:#9ba8b5;padding:2px 0;">Action</td>
-                    <td style="color:#FF9900;font-weight:700;
+                    <td style="color:#64748B;padding:3px 0;">Action</td>
+                    <td style="color:#10B981;font-weight:700;
                                text-align:right;">{site['action_status']}</td>
                 </tr>
             </table>
-            <div style="margin-top:8px;padding:6px 8px;
-                        background:#0f1923;border-radius:4px;
-                        font-size:0.78rem;color:#9ba8b5;">
+            <div style="margin-top:10px;padding:7px 10px;
+                        background:#0F172A;border-radius:6px;
+                        font-size:0.76rem;color:#94A3B8;">
                 📝 {site['notes']}
             </div>
         </div>
@@ -927,7 +1148,7 @@ def build_folium_map() -> folium.Map:
         folium.Marker(
             location=[site["lat"], site["lon"]],
             popup=folium.Popup(
-                folium.IFrame(popup_html, width=270, height=280),
+                folium.IFrame(popup_html, width=270, height=290),
                 max_width=290,
             ),
             tooltip=f"{site['name']} — {site['risk_level']}",
@@ -941,13 +1162,20 @@ def build_folium_map() -> folium.Map:
     # ── Legend overlay ─────────────────────────────────────────────────────────
     legend_html = """
     <div style="position:fixed;bottom:30px;left:30px;z-index:1000;
-                background:#1a2332;border:1px solid #2d3f55;
-                border-radius:8px;padding:10px 14px;
-                font-family:Arial,sans-serif;font-size:0.8rem;color:#d1d5db;">
-        <b style="color:#FF9900;">TPS Risk Legend</b><br>
-        <span style="color:#ef4444;">● CRITICAL</span> &nbsp;
-        <span style="color:#FF9900;">● WARNING</span> &nbsp;
-        <span style="color:#4ade80;">● SAFE</span>
+                background:#1E293B;border:1px solid #334155;
+                border-radius:10px;padding:12px 16px;
+                font-family:'Inter','Segoe UI',sans-serif;
+                font-size:0.78rem;color:#CBD5E1;
+                box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+        <b style="color:#10B981;display:block;margin-bottom:6px;
+                  font-size:0.72rem;letter-spacing:0.07em;text-transform:uppercase;">
+            TPS Risk Legend
+        </b>
+        <span style="color:#EF4444;">● CRITICAL</span>
+        &nbsp;&nbsp;
+        <span style="color:#F59E0B;">● WARNING</span>
+        &nbsp;&nbsp;
+        <span style="color:#10B981;">● SAFE</span>
     </div>
     """
     m.get_root().html.add_child(folium.Element(legend_html))
@@ -957,9 +1185,16 @@ def build_folium_map() -> folium.Map:
 
 # ── Tab 2: DLH Jakarta Central Control Room ───────────────────────────────────
 with tab_map:
-    st.markdown("### 🗺️ DLH Jakarta Central Control Room")
+    st.markdown(
+        "<h3 style='color:#F8FAFC;margin-bottom:4px;'>🗺️ DLH Jakarta"
+        " Central Control Room</h3>"
+        "<p style='color:#64748B;font-size:0.83rem;margin-top:0;'>"
+        "Real-time TPS site monitoring across DKI Jakarta's 5 administrative cities. "
+        "Click any map marker for a full site detail card.</p>",
+        unsafe_allow_html=True,
+    )
 
-    # ── Top metrics bar (AWS tile style) ──────────────────────────────────────
+    # ── KPI bar — 4 command-center tiles ─────────────────────────────────────
     tm1, tm2, tm3, tm4 = st.columns(4)
     with tm1:
         st.metric(
@@ -992,40 +1227,50 @@ with tab_map:
 
     st.markdown("---")
 
-    # ── Map + site list side-by-side ──────────────────────────────────────────
+    # ── Map + site status side-by-side ────────────────────────────────────────
     col_map, col_list = st.columns([3, 1], gap="large")
 
     with col_map:
-        st.markdown("#### 📍 Live TPS Risk Map — DKI Jakarta")
+        st.markdown(
+            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
+            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
+            "📍 Live TPS Risk Map — DKI Jakarta</div>",
+            unsafe_allow_html=True,
+        )
         jakarta_map = build_folium_map()
         st_folium(
             jakarta_map,
-            width=None,        # fills the column
+            width=None,
             height=500,
             returned_objects=[],
         )
 
     with col_list:
-        st.markdown("#### 📋 Site Status")
+        st.markdown(
+            "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
+            "text-transform:uppercase;color:#64748B;margin-bottom:8px;'>"
+            "📋 Site Status</div>",
+            unsafe_allow_html=True,
+        )
         for site in sorted(TPS_SITES, key=lambda x: x["priority_score"], reverse=True):
             badge_color = {
-                "CRITICAL": "#ef4444",
-                "WARNING":  "#FF9900",
-                "SAFE":     "#4ade80",
+                "CRITICAL": "#EF4444",
+                "WARNING":  "#F59E0B",
+                "SAFE":     "#10B981",
             }[site["risk_level"]]
-            action_color = "#4ade80" if site["action_status"] == "Truck Dispatched" else "#9ba8b5"
+            action_color = "#10B981" if site["action_status"] == "Truck Dispatched" \
+                           else "#64748B"
             st.markdown(
                 f"""
-                <div style="background:#1a2332;border:1px solid #2d3f55;
-                            border-left:3px solid {badge_color};
-                            border-radius:6px;padding:8px 12px;margin-bottom:8px;">
-                    <div style="color:{badge_color};font-weight:700;
-                                font-size:0.82rem;">{site['name']}</div>
-                    <div style="color:#9ba8b5;font-size:0.75rem;">
-                        {site['waste_type']} · {site['hours_to_decay']}h
+                <div class="site-card"
+                     style="border-left:3px solid {badge_color};">
+                    <div class="sc-name" style="color:{badge_color};">
+                        {site['name']}
                     </div>
-                    <div style="color:{action_color};font-size:0.75rem;
-                                font-weight:700;margin-top:2px;">
+                    <div class="sc-meta">
+                        {site['waste_type']} &nbsp;·&nbsp; {site['hours_to_decay']}h
+                    </div>
+                    <div class="sc-action" style="color:{action_color};">
                         {site['action_status']}
                     </div>
                 </div>
@@ -1036,11 +1281,17 @@ with tab_map:
     st.markdown("---")
 
     # ── Priority dispatch table ────────────────────────────────────────────────
-    st.markdown("#### 📊 Priority Dispatch Table")
+    st.markdown(
+        "<div style='font-size:0.72rem;font-weight:700;letter-spacing:0.08em;"
+        "text-transform:uppercase;color:#64748B;margin-bottom:6px;'>"
+        "📊 Priority Dispatch Table</div>",
+        unsafe_allow_html=True,
+    )
     st.caption(
         "Sorted by Priority Score (highest first). "
-        "🔴 Critical rows require immediate truck dispatch. "
-        "🟡 Warning rows are scheduled. 🟢 Safe rows are in routine monitoring."
+        "🔴 Critical — immediate dispatch. "
+        "🟡 Warning — scheduled. "
+        "🟢 Safe — routine monitoring."
     )
 
     dispatch_df  = build_dispatch_dataframe()
@@ -1058,7 +1309,6 @@ with tab_map:
     col_export, col_note = st.columns([1, 3], gap="small")
 
     with col_export:
-        # Build export DataFrame with a report timestamp column prepended
         report_ts  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         export_df  = dispatch_df.copy()
         export_df.insert(0, "Report Timestamp", report_ts)
@@ -1080,8 +1330,7 @@ with tab_map:
 
     with col_note:
         st.markdown(
-            "<div style='padding:10px 14px;background:#1a2332;border:1px solid #2d3f55;"
-            "border-radius:6px;font-size:0.82rem;color:#9ba8b5;'>"
+            "<div class='export-note'>"
             "📄 Export includes TPS Name, District, Waste Type, Hours to Decay, "
             "Priority Score, Risk Level, Gas Risk, and Action Status — "
             "timestamped for DLH Jakarta daily operational records."
