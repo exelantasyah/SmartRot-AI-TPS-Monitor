@@ -1337,7 +1337,7 @@ _PAGE_TITLES = {
 
 _title, _subtitle = _PAGE_TITLES[active_page]
 st.markdown(
-    f"<h2 style='color:#F8FAFC;margin-bottom:2px;font-size:1.5rem;font-weight:800;'>"
+    f"<h2 style='color:#F8FAFC;margin-top:24px;margin-bottom:2px;font-size:1.5rem;font-weight:800;'>"
     f"{_title}</h2>"
     f"<p style='color:#64748B;font-size:0.82rem;margin-top:0;margin-bottom:14px;'>"
     f"{_subtitle}</p>",
